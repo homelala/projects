@@ -1,0 +1,11 @@
+Portfolio_GWL
+- Spring 프레임워크를 사용하여 구축한 포트폴리오 서버
+
+졸작 서버
+- node.js를 사용하여 스마트 코인 노래방 어플에 대한 서버를 팀원들과
+협업을 통해 구축
+- 스마트 코인 노래방 어플 git 주소: https://github.com/minguk-park/karaoke-room
+
+클론 코딩
+- 강의를 통해 express, node.js를 사용해 웹을 구축하고 mysql, auth 등 다양한 분야를 
+접목시켜 웹을 개발
