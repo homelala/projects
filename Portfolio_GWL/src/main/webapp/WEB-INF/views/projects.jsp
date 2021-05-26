@@ -14,7 +14,7 @@
 		<!-- Note: The "styleN" class below should match that of the header element. -->
 		<section id="banner" class="style2">
 			<div class="inner">
-				<span class="image"> <img src="./resources/images/pic01.jpg"
+				<span class="image"> <img src="./resources/images/pic02.jpg"
 					alt="" />
 				</span>
 				<header class="major">
@@ -32,7 +32,7 @@
 			<!-- Two -->
 			<section id="two" class="spotlights">
 				<section>
-					<a class="image"> <img src="./resources/images/pic08.jpg"
+					<a class="image"> <img src="./resources/images/project2.png"
 						alt="" data-position="center center" />
 					</a>
 					<div class="content">
@@ -44,14 +44,14 @@
 								예약, 검색 등의 서비스를 가능하게 해주는 스마트 코인 노래방 어플을 팀원들과 개발하였고, node.js를 통한
 								express 프레임워크를 사용하여 어플, 라즈베리파이와 통신하는 서버를 개발하였습니다.</p>
 							<ul class="actions">
-								<li><a href="https://github.com/homelala/Repository/tree/main/%EC%A1%B8%EC%9E%91%20%EC%84%9C%EB%B2%84" class="button">Git Address</a></li>
+								<li><a href="https://github.com/homelala/projects/tree/master/%EC%A1%B8%EC%9E%91%20%EC%84%9C%EB%B2%84" class="button">Git Address</a></li>
 							</ul>
 						</div>
 					</div>
 				</section>
 				<section>
 					<a href="generic.html" class="image"> <img
-						src="./resources/images/pic09.jpg" alt=""
+						src="./resources/images/project1.png" alt=""
 						data-position="top center" />
 					</a>
 					<div class="content">
@@ -62,7 +62,7 @@
 							<p>node.js를 활용한 강좌를 통해 데이터의 CRUD부터 express 프레임워크를 사용하여 다양한
 								모듈들을 다루고 이를 발전시켜 나중에는 카카오를 통한 로그인까지 구현하는 클론 코딩을 진행하였습니다.</p>
 							<ul class="actions">
-								<li><a href="https://github.com/homelala/Repository/tree/main/%ED%81%B4%EB%A1%A0%20%EC%BD%94%EB%94%A9" class="button">Git Address</a></li>
+								<li><a href="https://github.com/homelala/projects/tree/master/%ED%81%B4%EB%A1%A0%20%EC%BD%94%EB%94%A9" class="button">Git Address</a></li>
 							</ul>
 						</div>
 					</div>
@@ -80,7 +80,7 @@
 							알려주는 웹 서버를 스프링을 사용하여 구축하였습니다. 이러한 서버에서 제가 맡은 부분은 로그인, 특정 오염물질에 대한 미세먼지 농도 표현,
 							QnA 게시판 등을 맡아 개발하였습니다.</p>
 							<ul class="actions">
-								<li><a href="https://github.com/homelala/Repository" class="button">Git Address</a></li>
+								<li><a href="https://github.com/homelala/projects" class="button">Git Address</a></li>
 							</ul>
 						</div>
 					</div>

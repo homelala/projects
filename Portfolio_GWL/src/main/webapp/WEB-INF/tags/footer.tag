@@ -61,7 +61,7 @@
 		<ul class="icons">
 			<li><a href="https://www.instagram.com/gunwoong._.2/"
 				class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
-			<li><a href="https://github.com/homelala/Repository.git"
+			<li><a href="https://github.com/homelala/projects"
 				class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
 		</ul>
 		<ul class="copyright">
