@@ -1,23 +1,6 @@
 var express = require('express');
 const db = require('../lib/mysql');
 var router = express.Router();
-router.get('/test',function(req,res){
-    var html = `
-    <!doctype html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-    </head>
-    <body>
-      <form  action="/payment/d" method="post">
-        <p><input type="text" name ="email" placeholder="email"/></p> 
-        <p><input type="submit"/></p>
-      </form>
-    </body>
-    </html>
-    `
-    res.send(html);
-});
 router.post('/invest',function(req,res){
     req.on('data',function(data){
         inputData = JSON.parse(data);
@@ -33,7 +16,7 @@ router.post('/invest',function(req,res){
         })
     })
 });
-router.post('/d',function(req,res){
+router.post('/decrease',function(req,res){
     console.log('decrease')
     req.on('data',function(data){
         inputData = JSON.parse(data);

@@ -1,24 +1,6 @@
 var express = require('express');
 const db = require('../lib/mysql');
 var router = express.Router();
-router.get('/',function(req,res){
-    var html = `
-    <!doctype html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-    </head>
-    <body>
-      <form  action="/music/search" method="post">
-        <p><input type="text" name ="text" placeholder="text"/></p> 
-        <p><input type="text" name ="type" placeholder="type"/></p> 
-        <p><input type="submit"/></p>
-      </form>
-    </body>
-    </html>
-    `
-    res.send(html);
-});
 router.post('/search', function(req,res){
     console.log("search")
     req.on('data',function(data){

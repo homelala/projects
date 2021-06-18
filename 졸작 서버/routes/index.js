@@ -15,23 +15,6 @@ router.get('/d',function(req,res){
         console.log('삭제 완료');
     });
 })
-router.get('/test',function(req,res){
-    var html = `
-    <!doctype html>
-    <html>
-    <head>
-      <meta charset="utf-8">
-    </head>
-    <body>
-      <form  action="/download" method="post">
-        <p><input type="text" name ="mac" placeholder="mac"/></p> 
-        <p><input type="submit"/></p>
-      </form>
-    </body>
-    </html>
-    `
-    res.send(html);
-});
 router.post('/invest',function(req,res){ //mac을 통해 업데이트가 필요한지 확인
     var post = req.body;
     var mac = post.mac;
