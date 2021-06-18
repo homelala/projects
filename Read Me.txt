@@ -1,5 +1,6 @@
 Portfolio_GWL
 - Spring 프레임워크를 사용하여 구축한 포트폴리오 서버
+- aws ec2를 통해 배포 완료(url: http://3.35.190.213:8080/Portfolio/)
 
 졸작 서버
 - node.js를 사용하여 스마트 코인 노래방 어플에 대한 서버를 팀원들과
