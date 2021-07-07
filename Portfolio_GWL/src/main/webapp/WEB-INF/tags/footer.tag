@@ -2,7 +2,7 @@
 <section id="contact">
 	<div class="inner">
 		<section>
-			<form method="post" action="/myweb/contact/create">
+			<form method="post" action="/Portfolio/contact/create">
 				<div class="fields">
 					<div class="field half">
 						<label for="name">Name</label> <input type="text" name="name"
@@ -46,7 +46,7 @@
 				<div class="contact-method">
 					<span class="icon solid alt fa-home"></span>
 					<h3>Address</h3>
-					<span>한라 2차 아파트<br /> 경기도 군포시 산본동<br /> 대한민국
+					<span>대한민국<br /> 경기도 군포시 산본동<br /> 한라 2차 아파트
 					</span>
 				</div>
 			</section>

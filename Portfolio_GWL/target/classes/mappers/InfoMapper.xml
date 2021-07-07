@@ -8,7 +8,7 @@
 <mapper namespace="org.web.mapper.InfoMapper">
  	
  	<insert id="create" >
- 		insert into Info(name,email,title,message,confirm) values(#{name},#{email},#{title},#{message},0)
+ 		insert into info(name,email,title,message,confirm) values(#{name},#{email},#{title},#{message},0)
  	</insert>
  	
  	<select id="readAll" resultType="org.web.domain.InfoVO">

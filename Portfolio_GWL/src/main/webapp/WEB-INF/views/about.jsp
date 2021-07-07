@@ -31,7 +31,7 @@
 						<div class="col-6 col-12-small">
 							<h3>항상 노력하는 개발자</h3>
 							<p>문과에서 교차지원을 통해 컴퓨터 공학과에 온 저는 남들보다 뒤쳐진 출발선에서 시작하였습니다. 이런 상황
-								가운데에서 조금이라도 앞으로 나아가기 위해 항상 노력하고 스스로를 채찍질하였고 현재도 IT의 트랜드에 따라 개발
+								가운데에서 조금이라도 앞으로 나아가기 위해 항상 노력하고 스스로 마음을 다잡았고 현재도 IT의 트랜드에 따라 개발
 								능력을 키워나가려고 자기 개발 중에 있습니다.</p>
 						</div>
 						<div class="col-6 col-12-small">
@@ -65,7 +65,7 @@
 					</div>
 				</div>
 				<ul class="actions">
-					<li><a href="/myweb/projects" class="button next">자세히 보기</a></li>
+					<li><a href="/Portfolio/projects" class="button next">자세히 보기</a></li>
 				</ul>
 			</div>
 			<div class="inner">

@@ -23,9 +23,9 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 	    <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-	    <property name="url" value="jdbc:mysql://127.0.0.1:3306/springdb?allowPublicKeyRetrieval=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC" />
-	    <property name="username" value="spring" />
-	    <property name="password" value="passwd" />
+	    <property name="url" value="jdbc:mysql://springservice.cu0wzhpsga3w.ap-northeast-2.rds.amazonaws.com:3306/webService?allowPublicKeyRetrieval=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC" />
+	    <property name="username" value="homelala" />
+	    <property name="password" value="lee28362836" />
 		<property name="maxActive" value="5" />
 	</bean>
 

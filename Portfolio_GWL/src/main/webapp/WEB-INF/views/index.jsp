@@ -28,7 +28,7 @@
 							</header>
 							<div class="content">
 								<div>
-									<p>안녕하세요. 저는 자바와 자바스크립트를 주로 사용하는 백엔드 개발자입니다.</p><p> 스스로에 모습에 만족하지 않고 쉬지 않고 달려가는 개발자가 되겠습니다. </p>
+									<p>안녕하세요. 저는 Spring과 Node.js를 주로 사용하는 백엔드 개발자입니다.</p><p> 스스로에 모습에 만족하지 않고 쉬지 않고 달려가는 개발자가 되겠습니다. </p>
 								</div>
 								<ul class="actions">
 									<li><a href="#one" class="button next scrolly">Get Started</a></li>
@@ -47,7 +47,7 @@
 										<img src="./resources/images/pic01.jpg" alt="" />
 									</span>
 									<header class="major">
-										<h3><a href="/myweb/projects" class="link">Projects</a></h3>
+										<h3><a href="/Portfolio/projects" class="link">Projects</a></h3>
 										<p>My projects	</p>
 									</header>
 								</article>
@@ -56,7 +56,7 @@
 										<img src="./resources/images/pic02.jpg" alt="" />
 									</span>
 									<header class="major">	
-										<h3><a href="/myweb/about" class="link">About</a></h3>
+										<h3><a href="/Portfolio/about" class="link">About</a></h3>
 										<p>about me...</p>
 									</header>
 								</article>
@@ -65,7 +65,7 @@
 										<img src="./resources/images/pic03.jpg" alt="" />
 									</span>
 									<header class="major">
-										<h3><a href="/myweb/contact?page=1" class="link">Contact</a></h3>
+										<h3><a href="/Portfolio/contact?page=1" class="link">Contact</a></h3>
 										<p>Contact to me</p>
 									</header>
 								</article>
@@ -74,7 +74,7 @@
 										<img src="./resources/images/pic04.jpg" alt="" />
 									</span>
 									<header class="major">
-										<h3><a href="/myweb/skills" class="link">Skills</a></h3>
+										<h3><a href="/Portfolio/skills" class="link">Skills</a></h3>
 										<p>My skills</p>
 									</header>
 								</article>

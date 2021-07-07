@@ -46,13 +46,13 @@
 										<td width="150"><c:out value="${infos.name}" /></td>
 										<td width="250"><c:out value="${infos.email}" /></td>
 										<td width="400"><a
-											href="/myweb/contact/read?id=${infos.id}">${infos.title}</a></td>
+											href="/Portfolio/contact/read?id=${infos.id}">${infos.title}</a></td>
 										<td width="200"><c:if test="${infos.confirm !=false}">
 												<img width="9%" src="./resources/images/check.png">
 											</c:if></td>
 										<td>
 											<form style="display: inline" method="post"
-												action="/myweb/contact/delete">
+												action="/Portfolio/contact/delete">
 												<input type="hidden" value="${infos.id}" name="id" /> <input
 													type="submit" class="button small" value="Delete">
 											</form>
@@ -62,16 +62,16 @@
 							</tbody>
 						</table>
 						<div style="float: right; margin-right:3%">
-							<a href="/myweb/contact?page=1" class="button primary small">
+							<a href="/Portfolio/contact?page=1" class="button primary small">
 								List</a>
 						</div>
 						<div style="float: right;margin-right:32%;font-size:110%">
 							<ul class="pagination">
-								<li><a href="/myweb/contact/readMarked?page=${page==1?page:page-1}" class="button small">Prev</a></li>
+								<li><a href="/Portfolio/contact/readMarked?page=${page==1?page:page-1}" class="button small">Prev</a></li>
 								<c:forEach var="i" begin="1" end="${len%5==0?len/5:len/5+1}">
-									<li><a href="/myweb/contact/readMarked?page=${i}" class="page">${i}</a></li>
+									<li><a href="/Portfolio/contact/readMarked?page=${i}" class="page">${i}</a></li>
 								</c:forEach>
-								<li><a href="/myweb/contact/readMarked?page=${page==(len%5==0?len/5:(len-(len%5))/5+1)?page:page+1}" class="button small">Next</a></li>
+								<li><a href="/Portfolio/contact/readMarked?page=${page==(len%5==0?len/5:(len-(len%5))/5+1)?page:page+1}" class="button small">Next</a></li>
 							</ul>
 						</div>					
 					</div>

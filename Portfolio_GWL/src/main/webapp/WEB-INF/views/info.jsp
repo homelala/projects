@@ -45,18 +45,18 @@
 					</div>
 					<div style="display: inline;">
 					<c:if test ="${info.confirm == false}">
-						<form style="display: inline; margin-right:20px" method="post" action="/myweb/contact/updateMark">
+						<form style="display: inline; margin-right:20px" method="post" action="/Portfolio/contact/updateMark">
 							<input type="hidden" value="${info.id}" name="id" /> 
 							<input type="submit" class="button small" value="Mark">
 						</form>
 					</c:if>
 					<c:if test ="${info.confirm == true}">
-						<form style="display: inline; margin-right:20px" method="post" action="/myweb/contact/updateUnMark">
+						<form style="display: inline; margin-right:20px" method="post" action="/Portfolio/contact/updateUnMark">
 							<input type="hidden" value="${info.id}" name="id" /> 
 							<input type="submit" class="button small" value="UnMark">
 						</form>
 					</c:if>	
-						<form style="display: inline" method="post" action="/myweb/contact/delete">
+						<form style="display: inline" method="post" action="/Portfolio/contact/delete">
 							<input type="hidden" value="${info.id}" name="id" /> 
 							<input type="submit" class="button small" value="Delete">
 						</form>
