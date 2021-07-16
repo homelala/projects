@@ -1,31 +1,26 @@
 const express = require('express');
-const template = require('../lib/templates/Register');
+const templateRegister = require('../lib/templates/Register');
+const templateLogin = require('../lib/templates/Login');
 const db = require('../lib/mysql');
-const controller = require('../controller/gymController');
+const GymController = require('../controller/gymController');
 var router = express.Router();
 
+
 router.get('/',function(req,res){
-    res.send('welcome');
+    res.send(`welcome!`);
 })
 
+//임시 페이지
 router.get('/register',function(req,res){
-    var temp = template.RegisterGYM();
+    var temp = templateRegister.RegisterGYM();
+    res.send(temp);
+})
+router.get('/login',function(req,res){
+    var temp = templateLogin.LoginGYM();
     res.send(temp);
 })
 
-router.post('/register_process',)
-//지점 등록
-router.post('/register_process',function(req,res){
-    var post = req.body;
-    console.log(post)
-    db.query('insert into gym (name, location, logoImage, category, adminName, email, phone, passwd) values(?,?,?,?,?,?,?,?)',
-    [post.name,post.location,"test",post.category,post.adminName,post.email,post.phone,post.passwd],function(err){
-        if(err){
-            res.send(err);
-        }else{
-            res.redirect('/');
-        }
-    })
-})
+router.post('/register_process', GymController.createGYM);
+router.post('/login_process', GymController.LoginGYM);
 
 module.exports = router;

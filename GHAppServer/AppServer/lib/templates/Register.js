@@ -47,5 +47,24 @@ module.exports = {
             </body>
         </html>
         `
+    },
+    RegisterCoach:function(){
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>Register</title>
+            </head>
+            <h1>강사 등록</h1>
+            <body>
+                <form action="/coach/register_process" method="post">
+                    <input type="text" name="name" placeholder="이름"/><br>
+                    <input type="text" name="email" placeholder="email"/><br>
+                    <input type="text" name="phone" placeholder="핸드폰 번호"/><br><br>   
+                    <input type="submit" value="저장"/><br>
+                </form>
+            </body>
+        </html>
+        `
     }
 }

@@ -9,11 +9,23 @@ module.exports = {
                     console.log(err);
                     rejects(err);
                 }else{
-                    console.log('goo')
                     resolve(result);
                 }
             })
-            db.end();
         })
-    }   
+    },
+    selectGym:function(post){
+        console.log(post.email)
+        return new Promise(function(resolve,rejects){
+            db.query('select * from gym where email = ?',[post.email],function(err,gymInfo){
+                if(err){
+                    console.log(err);
+                    rejects(err);
+                }else{
+                    //console.log(gymInfo)
+                    resolve(gymInfo);
+                }
+            })
+        })
+    }
 }
