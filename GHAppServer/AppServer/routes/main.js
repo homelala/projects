@@ -1,4 +1,5 @@
 const express = require('express');
+const template = require('../lib/templates/home');
 const templateRegister = require('../lib/templates/Register');
 const templateLogin = require('../lib/templates/Login');
 const db = require('../lib/mysql');
@@ -7,7 +8,8 @@ var router = express.Router();
 
 
 router.get('/',function(req,res){
-    res.send(`welcome!`);
+    var temp = template.home(req);
+    res.send(temp);
 })
 
 //임시 페이지

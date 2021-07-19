@@ -12,5 +12,16 @@ module.exports = {
                 }
             })
         })
+    },
+    AllCoach:function(sessionGym){
+        return new Promise(function(resolve,rejects){
+            db.query('select * from coach where GYM_id = ?',[sessionGym.GYM_id],function(err,result){
+                if(err){
+                    rejects(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
     }
 }

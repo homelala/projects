@@ -10,4 +10,5 @@ router.get('/register',function(req,res){
 })
 
 router.post('/register_process', coachController.createCoach);
+router.get('/list',coachController.coachList);
 module.exports = router;

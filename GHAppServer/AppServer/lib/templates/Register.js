@@ -66,5 +66,32 @@ module.exports = {
             </body>
         </html>
         `
+    },
+    RegisterMembership:function(){
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>Register</title>
+            </head>
+            <h1>회원권 등록</h1>
+            <body>
+                <form action="/membership/register_process" method="post">
+                    <input type="text" name="name" placeholder="회원권 명"/><br>
+                    <input type="text" name="price" placeholder="가격"/><br>
+                    <select name ="periodType">
+                        <option value =1 selected>일</option>
+                        <option value =30>월</option>
+                        <option value =365>년</option>
+                    </select><br>
+                    <input type="text" name="period" placeholder="유효기간"/><br>
+                    <input type="text" name="maxApply" placeholder="최대 수강 횟수"/><br>
+                    <input type="text" name="maxDayAttend" placeholder="일일 최대 수강 횟수"/><br>
+                    <input type="text" name="maxWeekAttend" placeholder="주간 최대 수강 횟수"/><br><br>   
+                    <input type="submit" value="저장"/><br>
+                </form>
+            </body>
+        </html>
+        `
     }
 }

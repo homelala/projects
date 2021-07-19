@@ -28,7 +28,7 @@ module.exports = {
                 location: result[0].location
             }
             req.session.save(function(){
-                res.send(`${req.session.gym.location} <br> welcome`);
+                res.redirect('/')
             });
         }).catch(function(){
             res.send('sorry');

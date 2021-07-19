@@ -1,4 +1,5 @@
 const express = require('express');
+const templateList = require('../lib/templates/List')
 const coachs = require('../model/coach.js')
 const expressSession = require('express-session');
 var app = express();
@@ -14,6 +15,14 @@ module.exports = {
     createCoach:function(req,res,next){
         coachs.insertCoach(req.body, req.session.gym).then(function(result){
             res.redirect('/')
+        }).catch(function(err){
+            res.send(err);
+        })
+    },
+    coachList:function(req,res,next){
+        coachs.AllCoach(req.session.gym).then(function(result){
+            var temp =  templateList.coachList(req,result);
+            res.send(temp);
         }).catch(function(err){
             res.send(err);
         })
