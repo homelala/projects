@@ -1,5 +1,6 @@
 const express = require('express');
 const templateList = require('../lib/templates/List');
+const templateInfo = require('../lib/templates/info');
 const members = require('../model/Members.js')
 const expressSession = require('express-session');
 var app = express();
@@ -36,16 +37,8 @@ module.exports = {
         });
     },
     memberListActive:function(req,res){
-        members.ActiveMember(req.session.gym.GYM_id).then(function(result){
-            var temp = templateList.memberList(req,result);
-            res.send(temp);
-        }).catch(function(err){
-            console.log(err);
-            res.send('sorry')
-        })
-    },
-    memberListExpire:function(req,res){
-        members.ExpireMember(req.session.gym.GYM_id).then(function(result){
+        var expire = req.query.expire;
+        members.memberList(req.session.gym.GYM_id,expire).then(function(result){
             var temp = templateList.memberList(req,result);
             res.send(temp);
         }).catch(function(err){
@@ -64,7 +57,16 @@ module.exports = {
     },
     approveMember:function(req,res){
         members.updateApprove(req.body).then(function(result){
-            res.redirect('/user/list/active');
+            res.redirect('/user/list?expire=0');
+        }).catch(function(err){
+            res.send(err);
+        })
+    },
+    memberInfo:function(req,res){
+        var member_id = req.query.id
+        members.memberInfo(req.session.gym.GYM_id,member_id).then(function(result){
+            var template = templateInfo.MemberInfo(req,result);
+            res.send(template);
         }).catch(function(err){
             res.send(err);
         })

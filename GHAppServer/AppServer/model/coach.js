@@ -13,9 +13,9 @@ module.exports = {
             })
         })
     },
-    AllCoach:function(sessionGym){
+    AllCoach:function(gymId){
         return new Promise(function(resolve,rejects){
-            db.query('select * from coach where GYM_id = ?',[sessionGym.GYM_id],function(err,result){
+            db.query('select * from coach where GYM_id = ?',[gymId],function(err,result){
                 if(err){
                     rejects(err);
                 }else{

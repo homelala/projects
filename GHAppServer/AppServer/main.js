@@ -5,6 +5,7 @@ var userRoute = require('./routes/user');
 var mainRoute = require('./routes/main');
 var coachRoute = require('./routes/coach');
 var membershipRoute = require('./routes/membership');
+var classRoute = require('./routes/classType');
 const expressSession = require('express-session');
 app.use(expressSession({
     secret:'my key',
@@ -22,6 +23,7 @@ app.use('/', mainRoute);
 app.use('/user',userRoute); 
 app.use('/coach', coachRoute);
 app.use('/membership', membershipRoute);
+app.use('/class', classRoute);
 
 app.use(function (req, res, next) {
     res.status(404).send('Sorry cant find that!');

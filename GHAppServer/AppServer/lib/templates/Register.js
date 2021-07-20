@@ -1,3 +1,4 @@
+const coachM = require('../../model/coach');
 module.exports = {
     RegusterUser:function(){
         return `<!doctype html>
@@ -17,7 +18,7 @@ module.exports = {
                     <input type="date" name="birth" placeholder="생년월일"/><br>
                     <select name ="male">
                         <option value ="남" selected>남</option>
-                        <option value = "녀">녀</option>
+                        <option value ="녀">녀</option>
                     </select><br><br>   
                     <input type="submit" value="회원 가입"/><br>
                 </form>
@@ -41,7 +42,9 @@ module.exports = {
                     <input type="text" name="category" placeholder="category"/><br>
                     <input type="text" name="email" placeholder="email"/><br>
                     <input type="password" name="passwd" placeholder="비밀번호"/><br>
-                    <input type="text" name="phone" placeholder="핸드폰 번호"/><br><br>   
+                    <input type="text" name="phone" placeholder="핸드폰 번호"/><br>
+                    <input type="text" name="subscribtionPath" placeholder="가입 경로"/>
+                    <br><br>   
                     <input type="submit" value="지점 등록"/><br>
                 </form>
             </body>
@@ -93,5 +96,40 @@ module.exports = {
             </body>
         </html>
         `
+    },
+    RegisterClass:function(req,res){
+        coachM.AllCoach(req.session.gym.GYM_id).then(function(result){
+            var temp = `<select name="coach">`;
+        for(var i =0;i<result.length;i++){
+            temp+=`<option value="${result[i].coach_id}">${result[i].name}</option>`
+        }
+        temp+=`</select>`;
+        var template =  `
+        <!doctype html>
+        <html>
+            <head>
+                <title>Register</title>
+            </head>
+            <h1>수업 등록</h1>
+            <body>
+                <form action="/class/register_process" method="post">
+                    <input type="text" name="name" placeholder="수업 명"/><br>
+                    <input type="text" name="category" placeholder="category"/><br>
+                    수업 유형<input type="checkbox" name="type"/><br>
+                    ${temp} <br>
+                    <input type="text" name="decrease" placeholder="차감 횟수"/><br>
+                    <input type="text" name="color" placeholder="색상"/><br>
+                    <input type="time" name="time" placeholder="수업 시간"/><br>
+                    <input type="text" name="reservePerson" placeholder="예약 정원"/><br>
+                    수강 제한 여부<input type="checkbox" name="limitClass"/><br>  
+                    <input type="submit" value="저장"/><br>
+                </form>
+            </body>
+        </html>
+        `
+        res.send(template);
+        }).catch(function(err){
+            console.log(err);
+        })
     }
 }

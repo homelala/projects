@@ -21,13 +21,13 @@ router.post('/register_process', userController.createMember);
 //Log in
 router.post('/LogIn_process',userController.loginMember);
 //유효 회원 보기
-router.get('/list/active',userController.memberListActive);
-//만료 회원 보기
-router.get('/list/expire',userController.memberListExpire);
+router.get('/list',userController.memberListActive);
 //승인 대기 회원 보기
 router.get('/list/approve',userController.memberListApprove);
 //승인 하기
 router.post('/approve',userController.approveMember);
+//회원 정보 보기 
+router.get('/info',userController.memberInfo);
 
 
 module.exports = router;

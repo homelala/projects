@@ -26,20 +26,9 @@ module.exports = {
             })
         })
     },
-    ActiveMember:function(gymId){
+    memberList:function(gymId,expireV){
         return new Promise(function(resolve,rejects){
-            db.query('select * from member where GYM_id = ? and approve = 0', [gymId], function(err,userInfo){
-                if(err){
-                    rejects(err);
-                }else{
-                    resolve(userInfo);
-                }
-            })
-        })
-    },
-    ExpireMember:function(gymId){
-        return new Promise(function(resolve,rejects){
-            db.query('select * from member where GYM_id = ? and expire=1', [gymId], function(err,userInfo){
+            db.query('select * from member where GYM_id = ? and expire = ? and approve = 0', [gymId,expireV], function(err,userInfo){
                 if(err){
                     rejects(err);
                 }else{
@@ -62,6 +51,17 @@ module.exports = {
     updateApprove:function(post){
         return new Promise(function(resolve, rejects){
             db.query('update member set approve = 0 where member_id =?',[post.member_id],function(err,result){
+                if(err){
+                    rejects(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
+    },
+    memberInfo:function(gym_id,member_id){
+        return new Promise(function(resolve,rejects){
+            db.query('select * from member where GYM_id = ? and member_id = ?',[gym_id,member_id],function(err,result){
                 if(err){
                     rejects(err);
                 }else{

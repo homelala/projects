@@ -20,7 +20,7 @@ module.exports = {
         })
     },
     coachList:function(req,res,next){
-        coachs.AllCoach(req.session.gym).then(function(result){
+        coachs.AllCoach(req.session.gym.GYM_id).then(function(result){
             var temp =  templateList.coachList(req,result);
             res.send(temp);
         }).catch(function(err){
