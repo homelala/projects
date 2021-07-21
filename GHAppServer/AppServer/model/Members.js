@@ -69,5 +69,17 @@ module.exports = {
                 }
             })
         })
+    },
+    memberUpdate:function(post,gym_id){
+        return new Promise(function(resolve,rejects){
+            db.query('update member set phone = ?, birth = ?, description=? where member_id =?',
+            [post.phone, post.birth,post.description,post.id],function(err,result){
+                if(err){
+                    rejects(err);
+                }else{
+                    resolve(post.id)
+                }
+            })
+        })
     }
 }

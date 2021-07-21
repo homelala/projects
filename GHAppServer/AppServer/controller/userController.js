@@ -2,6 +2,8 @@ const express = require('express');
 const templateList = require('../lib/templates/List');
 const templateInfo = require('../lib/templates/info');
 const members = require('../model/Members.js')
+const memberships = require('../model/membership');
+const classTypes = require('../model/classType');
 const expressSession = require('express-session');
 var app = express();
 app.use(expressSession({
@@ -63,11 +65,39 @@ module.exports = {
         })
     },
     memberInfo:function(req,res){
-        var member_id = req.query.id
+        var member_id = req.query.id;
+        members.memberInfo(req.session.gym.GYM_id,member_id).then(function(memberInfo){
+            memberships.useMembershipInfo(req.session.gym.GYM_id,member_id).then(function(membershipInfo){
+                var template = templateInfo.MemberInfo(req,memberInfo,membershipInfo);
+                res.send(template);
+            }).catch(function(err){
+                console.log(err);
+                res.send(err);
+            })
+        })
+    },
+    memberUpdate:function(req,res){
+        var member_id = req.query.id;
         members.memberInfo(req.session.gym.GYM_id,member_id).then(function(result){
-            var template = templateInfo.MemberInfo(req,result);
+            var template = templateInfo.memberUpdate(req,result);
             res.send(template);
         }).catch(function(err){
+            res.send(err);
+        })
+    },
+    memberUpdateProcess:function(req,res){
+        members.memberUpdate(req.body,req.session.gym.GYM_id).then(function(id){
+            res.redirect(`/user/info?id=${id}`);
+        }).catch(function(err){
+            res.send(err);
+        })
+    },
+    buyMembership:function(req,res){
+        var member_id = req.query.id
+        memberships.buyMembership(req.body,req.session.gym.GYM_id,member_id).then(function(result){
+            res.redirect(`/user/info?id=${member_id}`);
+        }).catch(function(err){
+            console.log(err);
             res.send(err);
         })
     }

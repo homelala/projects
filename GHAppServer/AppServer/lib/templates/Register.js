@@ -1,4 +1,6 @@
 const coachM = require('../../model/coach');
+const memberships = require('../../model/membership');
+const classTypes = require('../../model/classType');
 module.exports = {
     RegusterUser:function(){
         return `<!doctype html>
@@ -128,6 +130,50 @@ module.exports = {
         </html>
         `
         res.send(template);
+        }).catch(function(err){
+            console.log(err);
+        })
+    },buyMembership:function(req,res){
+        var member_id = req.query.id;
+        memberships.AllMembership(req.session.gym).then(function(membership){
+            classTypes.AllClass(req.session.gym.GYM_id).then(function(classType){
+                var membershipList = `<select name="membership_id">`;
+                for(var i =0;i<membership.length;i++){
+                    membershipList+=`<option value="${membership[i].membership_id}">${membership[i].name}</option>`
+                }
+                membershipList+=`</select>`;
+                var classTypeList = `<select name="classType_id">`;
+                for(var i =0;i<classType.length;i++){
+                    classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
+                }
+                classTypeList+=`</select>`;
+                var template =  `
+                <!doctype html>
+                <html>
+                    <head>
+                        <title>Register</title>
+                    </head>
+                    <h1>수업 등록</h1>
+                    <body>
+                        <form action="/user/membership/buy?id=${member_id}" method="post">
+                            회원권: ${membershipList}<br>
+                            시작일<input type="date" name="startDay"/><br>
+                            ${classTypeList} <br>
+                            최대 수강 횟수: <input type="text" name="MaxApply"><br>
+                            수강 횟수: <input type="text" name="countClass"><br>
+                            정상 금액: <input type="text" name="price"><br>
+                            결제 금액: <input type="text" name="payment"><br>
+                            카드: <input type="text" name="card"/><br>
+                            현금: <input type="text" name="cash"/><br> 
+                            미수금: <input type="text" name="accountReceivable"/><br> 
+                            결제일: <input type="date" name="paymentDay"/><br> 
+                            <input type="submit" value="구매"/><br>
+                        </form>
+                    </body>
+                </html>
+                `
+                res.send(template);
+            })
         }).catch(function(err){
             console.log(err);
         })

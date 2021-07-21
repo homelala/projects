@@ -18,7 +18,7 @@ module.exports = {
     },
     AllClass:function(gymId){
         return new Promise(function(resolve,rejects){
-            db.query('select a.name classType_name, b.name coach_name, a.time time from classType a join coach b on a.coach_id =  b.coach_id where a.GYM_id = ?',
+            db.query('select a.classType_id classType_id, a.name classType_name, b.name coach_name, a.time time from classType a join coach b on a.coach_id =  b.coach_id where a.GYM_id = ?',
                 [gymId],function(err,result){
                 if(err){
                     console.log(err);
