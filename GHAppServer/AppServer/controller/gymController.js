@@ -20,7 +20,6 @@ module.exports = {
     },
     LoginGYM:function(req,res,next){
         gyms.selectGym(req.body).then(function(result){
-            console.log(result[0]);
             req.session.gym = {
                 GYM_id: result[0].GYM_id,
                 email: result[0].email,

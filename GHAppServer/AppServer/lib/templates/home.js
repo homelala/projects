@@ -19,6 +19,7 @@ module.exports = {
                 <a href="/coach/register">코치 등록</a>
                 <a href="/membership/register">회원권 등록</a>
                 <a href="/class/register">수업 등록</a>
+                <a href="/schedule/register">스케줄 추가</a>
                 <br>
                 <a href="/user/list?expire=0">회원 보기</a>
                 <a href="/coach/list">코치 보기</a>

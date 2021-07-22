@@ -177,5 +177,186 @@ module.exports = {
         }).catch(function(err){
             console.log(err);
         })
+    },buyMembership:function(req,res){
+        var member_id = req.query.id;
+        memberships.AllMembership(req.session.gym).then(function(membership){
+            classTypes.AllClass(req.session.gym.GYM_id).then(function(classType){
+                var membershipList = `<select name="membership_id">`;
+                for(var i =0;i<membership.length;i++){
+                    membershipList+=`<option value="${membership[i].membership_id}">${membership[i].name}</option>`
+                }
+                membershipList+=`</select>`;
+                var classTypeList = `<select name="classType_id">`;
+                for(var i =0;i<classType.length;i++){
+                    classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
+                }
+                classTypeList+=`</select>`;
+                var template =  `
+                <!doctype html>
+                <html>
+                    <head>
+                        <title>Register</title>
+                    </head>
+                    <h1>수업 등록</h1>
+                    <body>
+                        <form action="/user/membership/buy?id=${member_id}" method="post">
+                            회원권: ${membershipList}<br>
+                            시작일<input type="date" name="startDay"/><br>
+                            ${classTypeList} <br>
+                            최대 수강 횟수: <input type="text" name="MaxApply"><br>
+                            수강 횟수: <input type="text" name="countClass"><br>
+                            정상 금액: <input type="text" name="price"><br>
+                            결제 금액: <input type="text" name="payment"><br>
+                            카드: <input type="text" name="card"/><br>
+                            현금: <input type="text" name="cash"/><br> 
+                            미수금: <input type="text" name="accountReceivable"/><br> 
+                            결제일: <input type="date" name="paymentDay"/><br> 
+                            <input type="submit" value="구매"/><br>
+                        </form>
+                    </body>
+                </html>
+                `
+                res.send(template);
+            })
+        }).catch(function(err){
+            console.log(err);
+        })
+    },buyMembership:function(req,res){
+        var member_id = req.query.id;
+        memberships.AllMembership(req.session.gym).then(function(membership){
+            classTypes.AllClass(req.session.gym.GYM_id).then(function(classType){
+                var membershipList = `<select name="membership_id">`;
+                for(var i =0;i<membership.length;i++){
+                    membershipList+=`<option value="${membership[i].membership_id}">${membership[i].name}</option>`
+                }
+                membershipList+=`</select>`;
+                var classTypeList = `<select name="classType_id">`;
+                for(var i =0;i<classType.length;i++){
+                    classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
+                }
+                classTypeList+=`</select>`;
+                var template =  `
+                <!doctype html>
+                <html>
+                    <head>
+                        <title>Register</title>
+                    </head>
+                    <h1>수업 등록</h1>
+                    <body>
+                        <form action="/user/membership/buy?id=${member_id}" method="post">
+                            회원권: ${membershipList}<br>
+                            시작일<input type="date" name="startDay"/><br>
+                            ${classTypeList} <br>
+                            최대 수강 횟수: <input type="text" name="MaxApply"><br>
+                            수강 횟수: <input type="text" name="countClass"><br>
+                            정상 금액: <input type="text" name="price"><br>
+                            결제 금액: <input type="text" name="payment"><br>
+                            카드: <input type="text" name="card"/><br>
+                            현금: <input type="text" name="cash"/><br> 
+                            미수금: <input type="text" name="accountReceivable"/><br> 
+                            결제일: <input type="date" name="paymentDay"/><br> 
+                            <input type="submit" value="구매"/><br>
+                        </form>
+                    </body>
+                </html>
+                `
+                res.send(template);
+            })
+        }).catch(function(err){
+            console.log(err);
+        })
+    },buyMembership:function(req,res){
+        var member_id = req.query.id;
+        memberships.AllMembership(req.session.gym).then(function(membership){
+            classTypes.AllClass(req.session.gym.GYM_id).then(function(classType){
+                var membershipList = `<select name="membership_id">`;
+                for(var i =0;i<membership.length;i++){
+                    membershipList+=`<option value="${membership[i].membership_id}">${membership[i].name}</option>`
+                }
+                membershipList+=`</select>`;
+                var classTypeList = `<select name="classType_id">`;
+                for(var i =0;i<classType.length;i++){
+                    classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
+                }
+                classTypeList+=`</select>`;
+                var template =  `
+                <!doctype html>
+                <html>
+                    <head>
+                        <title>Register</title>
+                    </head>
+                    <h1>수업 등록</h1>
+                    <body>
+                        <form action="/user/membership/buy?id=${member_id}" method="post">
+                            회원권: ${membershipList}<br>
+                            시작일<input type="date" name="startDay"/><br>
+                            ${classTypeList} <br>
+                            최대 수강 횟수: <input type="text" name="MaxApply"><br>
+                            수강 횟수: <input type="text" name="countClass"><br>
+                            정상 금액: <input type="text" name="price"><br>
+                            결제 금액: <input type="text" name="payment"><br>
+                            카드: <input type="text" name="card"/><br>
+                            현금: <input type="text" name="cash"/><br> 
+                            미수금: <input type="text" name="accountReceivable"/><br> 
+                            결제일: <input type="date" name="paymentDay"/><br> 
+                            <input type="submit" value="구매"/><br>
+                        </form>
+                    </body>
+                </html>
+                `
+                res.send(template);
+            })
+        }).catch(function(err){
+            console.log(err);
+        })
+    },registerSchedule:function(req,res){
+        var member_id = req.query.id;
+        coachM.AllCoach(req.session.gym.GYM_id).then(function(coach){
+            classTypes.AllClass(req.session.gym.GYM_id).then(function(classType){
+                var coachList = `<select name="coach_id">`;
+                for(var i =0;i<coach.length;i++){
+                    coachList+=`<option value="${coach[i].coach_id}">${coach[i].name}</option>`
+                }
+                coachList+=`</select>`;
+                var classTypeList = `<select name="classType_id">`;
+                for(var i =0;i<classType.length;i++){
+                    classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
+                }
+                classTypeList+=`</select>`;
+                var template =  `
+                <!doctype html>
+                <html>
+                    <head>
+                        <title>Register</title>
+                    </head>
+                    <h1>스케줄 등록</h1>
+                    <body>
+                        <form action="/schedule/register" method="post">
+                            시작 일: <input type="date" name="startDay"/><br>
+                            시작 시간: <input type="time" name="startTime"><br>
+                            강사 이름: ${coachList}<br>
+                            수업: ${classTypeList} <br>
+                            수업 시간: <input type="text" name="period"><br>
+                            차감 횟수: <input type="text" name="decrease"><br>
+                            예약 정원: <input type="text" name="reservePerson"><br>
+                            <select name = "cycle">
+                                <option value="undefined">한번 개설</option>
+                                <option value="1">매주 개설</option>
+                                <option value="2">2주마다 개설</option>
+                                <option value="3">3주마다 개설</option>
+                                <option value="4">4주마다 개설</option>
+                            </select><br>
+                            요일: <input type="text" name="day"><br>
+                            종료: <input type="date" name="endDay"><br>
+                            <input type="submit" value="구매"/><br>
+                        </form> 
+                    </body>
+                </html>
+                `
+                res.send(template);
+            })
+        }).catch(function(err){
+            console.log(err);
+        })
     }
 }
