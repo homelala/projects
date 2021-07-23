@@ -19,7 +19,7 @@ module.exports = {
                     if(startDay < result[i].startDay || startDay > result[i].endDay){
                         resolve(true);
                     }else{
-                        rejects(err)
+                        resolve(false);
                     }
                 }
             })

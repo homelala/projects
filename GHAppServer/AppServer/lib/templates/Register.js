@@ -346,7 +346,15 @@ module.exports = {
                                 <option value="3">3주마다 개설</option>
                                 <option value="4">4주마다 개설</option>
                             </select><br>
-                            요일: <input type="text" name="day"><br>
+                            요일<br>
+                            일<input type="checkbox" name="day" value="0">
+                            월<input type="checkbox" name="day" value="1">
+                            화<input type="checkbox" name="day" value="2">
+                            수<input type="checkbox" name="day" value="3">
+                            목<input type="checkbox" name="day" value="4">
+                            금<input type="checkbox" name="day" value="5">
+                            토<input type="checkbox" name="day" value="6">
+                            <br>
                             종료: <input type="date" name="endDay"><br>
                             <input type="submit" value="구매"/><br>
                         </form> 
