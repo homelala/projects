@@ -14,6 +14,7 @@ module.exports = {
             </head>
             <h1>WELCOME!</h1>
             <body>
+                <a href="/setting">운영 정책</a><br>
                 <a href="/register">지점 가입</a>
                 <a href="/user/register">회원 가입</a>
                 <a href="/coach/register">코치 등록</a>
@@ -25,6 +26,7 @@ module.exports = {
                 <a href="/coach/list">코치 보기</a>
                 <a href="/membership/list">회원권 보기</a>
                 <a href="/class/list">수업 보기</a>
+                <a href="/schedule/list">스케줄 보기</a>
             </body>
         </html>
         `

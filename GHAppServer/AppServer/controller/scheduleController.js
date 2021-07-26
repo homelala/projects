@@ -3,8 +3,6 @@ const templateList = require('../lib/templates/List')
 const schedules = require('../model/schedule');
 const reserveBlocks = require('../model/reserveBlock');
 const expressSession = require('express-session');
-const { log } = require('console');
-const { end } = require('../lib/mysql');
 var app = express();
 app.use(expressSession({
     secret:'my key',
@@ -18,7 +16,6 @@ async function insert(endDay,dayList,req,period,post){
     var tempDay = new Date(post.startDay);
     await schedules.insertSchedule(req.body,req.session.gym.GYM_id,id,tempDay);
     while(tempDay<=endDay){
-        console.log(tempDay,endDay);
         var start = tempDay.getDay();
         var nextSun = tempDay.getDate()-start + period;
         tempDay.setDate(nextSun);

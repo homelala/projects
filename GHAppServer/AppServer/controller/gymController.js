@@ -32,5 +32,12 @@ module.exports = {
         }).catch(function(){
             res.send('sorry');
         })
+    },
+    updateGymSetting:function(req,res,next){
+        gyms.updateGymSetting(req.body,req.session.gym.GYM_id).then(function(result){
+            res.redirect('/');
+        }).catch(function(err){
+            res.send(err);
+        })
     }
 }

@@ -53,6 +53,77 @@ module.exports = {
         </html>
         `
     },
+    SettingGYM:function(){
+        return`<!doctype html>
+        <html>
+            <head>
+                <title>Register</title>
+            </head>
+            <h1>운영 정책</h1>
+            <body>
+                <form action="/setting_process" method="post">
+                    운영 시스템<br>
+                    <select name ="countPoint">
+                        <option value =1 selected>포인트 제</option>
+                        <option value =0>횟수</option>
+                    </select><br>
+                    예약 오픈 시점 <br>
+                    <select name ="reserveOpenType">
+                        <option value =1 selected>일</option>
+                        <option value =7>주</option>
+                    </select>
+                    <input type="text" name="openReserveDate" placeholder="예약 오픈 시점"/><br>
+                    예약 오픈 시간<input type="time" name="openResrveTime"/><br>
+                    잔여 인원 노출<input type="checkbox" name="remainMember"><br>
+                    수업 리마인드 푸시 알림<input type="checkbox" name="pushAlarm"><br>
+                    <select name ="pushAlarmType">
+                        <option value =1>분</option>
+                        <option value =60 selected>시</option>
+                        <option value =1440>일</option>
+                    </select>
+                    <input type="text" name="pushAlarmTime" placeholder="푸시 알림 발송 시간"/><br>
+                    예약 가능 시간
+                    <select name ="reservableType">
+                        <option value =1>분</option>
+                        <option value =60 selected>시</option>
+                        <option value =1440>일</option>
+                    </select>
+                    <input type="text" name="reservableTime" placeholder="예약 가능 시간"/><br>
+                    예약 변경 시간
+                    <select name ="changeReserveType">
+                        <option value =1>분</option>
+                        <option value =60 selected>시</option>
+                        <option value =1440>일</option>
+                    </select>
+                    <input type="text" name="changeReserveTime" placeholder="예약 변경 시간"/><br>
+                    예약 취소 시간
+                    <select name ="cancelReserveType">
+                        <option value =1>분</option>
+                        <option value =60 selected>시</option>
+                        <option value =1440>일</option>
+                    </select>
+                    <input type="text" name="cancelReserveTime" placeholder="예약 취소 시간"/><br>
+                    출석 체크 가능 시간
+                    <select name ="checkAttendTimeType">
+                        <option value =1>분</option>
+                        <option value =60 selected>시</option>
+                        <option value =1440>일</option>
+                    </select>
+                    <input type="text" name="checkAttendTime" placeholder="출석 체크 가능 시간"/><br>
+                    예약 대기 인원 노출<input type="checkbox" name="waitingReserve"><br>
+                    예약 확정 시간
+                    <select name ="reserveConfirmTime">
+                        <option value =1>예약 취소 가능 시간 정책과 동일하게 적용</option>
+                        <option value =0 selected>예약 변경 가능 시간 정책과 동일하게 적용</option>
+                        <option value =-1>예약 가능 시간 정책과 동일하게 적용</option>
+                    </select>
+                    <br><br>   
+                    <input type="submit" value="저장"/><br>
+                </form>
+            </body>
+        </html>
+        `
+    },
     RegisterCoach:function(){
         return `
         <!doctype html>
@@ -119,9 +190,10 @@ module.exports = {
                     <input type="text" name="category" placeholder="category"/><br>
                     수업 유형<input type="checkbox" name="type"/><br>
                     ${temp} <br>
+                    ${temp} <br>
                     <input type="text" name="decrease" placeholder="차감 횟수"/><br>
                     <input type="text" name="color" placeholder="색상"/><br>
-                    <input type="time" name="time" placeholder="수업 시간"/><br>
+                    <input type="text" name="time" placeholder="수업 시간"/>분<br>
                     <input type="text" name="reservePerson" placeholder="예약 정원"/><br>
                     수강 제한 여부<input type="checkbox" name="limitClass"/><br>  
                     <input type="submit" value="저장"/><br>
