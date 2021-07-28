@@ -1,6 +1,7 @@
 const express = require('express');
 const templateList = require('../lib/templates/List')
 const schedules = require('../model/schedule');
+const coachs = require('../model/coach');
 const reserveBlocks = require('../model/reserveBlock');
 const expressSession = require('express-session');
 var app = express();
@@ -9,7 +10,7 @@ app.use(expressSession({
     resave: false,
     saveUninitialized:true,
     cookie: {
-        maxAge: 1000 * 60 * 60, // 쿠키 유효기간 1시간
+        maxAge: 1000 * 60 * 60 * 24, // 쿠키 유효기간 1시간
     }
 }))
 async function insert(endDay,dayList,req,period,post){
@@ -27,7 +28,12 @@ async function insert(endDay,dayList,req,period,post){
             }
             var able = await reserveBlocks.checkBlock(tempDay,req.session.gym.GYM_id);
             if(able){
-                await schedules.insertSchedule(req.body,req.session.gym.GYM_id,id,tempDay);
+                var insertScheduleInfo = await schedules.insertSchedule(req.body,req.session.gym.GYM_id,id,tempDay);
+                if(insertScheduleInfo !== undefined){
+                    for(var i =0;i<post.coach_id.length;i++){
+                        await schedules.insertCoachSchedule(req.session.gym.GYM_id,insertScheduleInfo.insertId,post.coach_id[i],);
+                    }
+                }
             }         
         }  
     }
@@ -44,7 +50,12 @@ module.exports = {
             var able = await reserveBlocks.checkBlock(startDay,req.session.gym.GYM_id);
             if(able){
                 try{
-                    await schedules.insertSchedule(req.body,req.session.gym.GYM_id,id,startDay);
+                    var insertScheduleInfo = await schedules.insertSchedule(req.body,req.session.gym.GYM_id,id,startDay);
+                    if(insertScheduleInfo !== undefined){
+                        for(var i =0;i<post.coach_id.length;i++){
+                            await schedules.insertCoachSchedule(req.session.gym.GYM_id,insertScheduleInfo.insertId,post.coach_id[i],);
+                        }
+                    }
                 }catch(err){
                     console.log(err);
                 }
@@ -83,5 +94,20 @@ module.exports = {
             }
             res.redirect('/');
         }      
+    },
+    DayScheduleList:async function(req,res,next){
+        var scheduleInfo = await schedules.DayScheduleList(req.body, req.session.gym.GYM_id);
+        var template = await templateList.scheduleList(req,scheduleInfo);
+        res.send(template);
+    },
+    MonthScheduleList:async function(req,res,next){
+        var scheduleInfo = await schedules.MonthScheduleList(req.body, req.session.gym.GYM_id);
+        var template = await templateList.scheduleList(req,scheduleInfo);
+        res.send(template);
+    },
+    WeekScheduleList:async function(req,res,next){
+        var scheduleInfo = await schedules.WeekScheduleList(req.body, req.session.gym.GYM_id);
+        var template = await templateList.scheduleList(req,scheduleInfo);
+        res.send(template);
     }
 }

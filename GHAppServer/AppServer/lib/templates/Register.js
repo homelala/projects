@@ -407,6 +407,7 @@ module.exports = {
                             시작 일: <input type="date" name="startDay"/><br>
                             시작 시간: <input type="time" name="startTime"><br>
                             강사 이름: ${coachList}<br>
+                            강사 이름: ${coachList}<br>
                             수업: ${classTypeList} <br>
                             수업 시간: <input type="text" name="period"><br>
                             차감 횟수: <input type="text" name="decrease"><br>

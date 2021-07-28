@@ -3,6 +3,8 @@ module.exports = {
     home:function(req){
         var gymInfo =auth.gymLogin(req);
         var userInfo = auth.memberLogin(req);
+        var today = new Date();
+        var DayFormat = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
         return `
         <!doctype html>
         <html>
@@ -26,7 +28,10 @@ module.exports = {
                 <a href="/coach/list">코치 보기</a>
                 <a href="/membership/list">회원권 보기</a>
                 <a href="/class/list">수업 보기</a>
-                <a href="/schedule/list">스케줄 보기</a>
+                <form action = "/schedule/list/day" method="post">
+                    <input type="hidden" name="startDay" value="${DayFormat}" />
+                    <input type="submit" value="스케줄 보기"/>
+                </form>
             </body>
         </html>
         `

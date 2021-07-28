@@ -1,4 +1,5 @@
 const auth = require('../auth/checkLogin');
+const coachs = require('../../model/coach');
 module.exports = {
     memberList:function(req,result){
         var gymInfo =auth.gymLogin(req);
@@ -228,6 +229,72 @@ module.exports = {
                 <a href="/user/list?expire=0">회원 보기</a>
                 <a href="/coach/list">코치 보기</a>
                 <a href="/membership/list">회원권 보기</a>
+                ${list}
+            </body>
+        </html>
+        `
+    },
+    scheduleList:async function(req,result){
+        var today = new Date();
+        var DayFormat = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
+        var gymInfo =auth.gymLogin(req);
+        var userInfo = auth.memberLogin(req);
+        var list = `<table>
+                        <tr>
+                            <th>날짜</th>
+                            <th>수업 명</th>
+                            <th>코치 명</th>
+                            <th>시간</th>
+                            <th>예약 인원</th>
+                        <tr>`;
+        for(var i = 0;i<result.length;i++){
+            var coachList = await coachs.scheduleCoach(req.session.gym.GYM_id,result[i].id);
+            var coachTemp = `<td>`;
+            for(var j =0;j<coachList.length;j++){
+                coachTemp += `${coachList[j].name} `
+            }
+            coachTemp+=`</td>`;
+            list += `<tr>
+                        <td>${result[i].startDay}</td>
+                        <td>${result[i].classType_name}</td>
+                        <td>${result[i].startTime}~${result[i].period}</td>
+                        ${coachTemp}
+                        <td>${result[i].reserveNumber}</td>
+                        <td><a href = "/schedule/reservation">예약하기</a></td>
+                    </tr>`  
+        }
+        list+=`</table>`
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>HOME</title>
+                ${gymInfo.location} ${userInfo.name}<br>
+                <a href="/login">지점 로그인</a>
+                <a href="/user/login">회원 로그인</a>
+            </head>
+            <h1>WELCOME!</h1>
+            <body>
+                <a href="/register">지점 가입</a>
+                <a href="/user/register">회원 가입</a>
+                <a href="/coach/register">코치 등록</a>
+                <br>
+                <a href="/user/list?expire=0">회원 보기</a>
+                <a href="/coach/list">코치 보기</a>
+                <a href="/membership/list">회원권 보기</a>
+                <br>
+                <form action = "/schedule/list/day" method="post">
+                    <input type="hidden" name="startDay" value="${DayFormat}" />
+                    <input type="submit" value="일별"/>
+                </form>
+                <form action = "/schedule/list/week" method="post">
+                    <input type="hidden" name="startDay" value="${DayFormat}" />
+                    <input type="submit" value="주별"/>
+                </form>
+                <form action = "/schedule/list/month" method="post">
+                    <input type="hidden" name="startDay" value="${DayFormat}" />
+                    <input type="submit" value="월별"/>
+                </form>
                 ${list}
             </body>
         </html>

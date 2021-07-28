@@ -1,4 +1,5 @@
 const db = require('../lib/mysql');
+const gym = require('./gym');
 
 module.exports = {
     insertCoach:function(post,sessionGym){
@@ -17,6 +18,19 @@ module.exports = {
         return new Promise(function(resolve,rejects){
             db.query('select * from coach where GYM_id = ?',[gymId],function(err,result){
                 if(err){
+                    rejects(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
+    },
+    scheduleCoach:function(gymId,scheduleId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.name name from coach a join coach_class b on a.coach_id = b.coach_id where b.class_id = ? and b.GYM_id = ?`,
+            [scheduleId,gymId],function(err,result){
+                if(err){
+                    console.log(err);
                     rejects(err);
                 }else{
                     resolve(result);
