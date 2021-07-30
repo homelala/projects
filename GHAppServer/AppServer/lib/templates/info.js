@@ -24,7 +24,7 @@ module.exports = {
             list += `<tr>
                         <td>${membership[i].membership_name}</td>
                         <td>${membership[i].startDay}</td>
-                        <td>${membership[i].startDay+membership[i].period}</td>
+                        <td>${membership[i].endDay}</td>
                         <td>${membership[i].classType_name}</td>
                         <td>${membership[i].maxApply}</td>
                         <td>${membership[i].countClass}</td>

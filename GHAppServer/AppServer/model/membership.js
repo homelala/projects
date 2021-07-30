@@ -1,4 +1,3 @@
-const { UV_FS_O_FILEMAP } = require('constants');
 const db = require('../lib/mysql');
 
 module.exports = {
@@ -29,7 +28,7 @@ module.exports = {
     },
     useMembershipInfo:function(gym_id,member_id){
         return new Promise(function(resolve, rejects){
-            db.query(`select b.name membership_name, a.startDay startDay, c.name classType_name, b.maxApply maxApply, a.countClass countClass, b.price price, 
+            db.query(`select b.name membership_name, a.startDay startDay, a.endDay endDay, c.name classType_name, a.maxCountClass maxApply, a.countClass countClass, b.price price, 
             a.payment payment, a.card card, a.cash cash, a.accountReceivable accountReceivable, a.paymentDay paymentDay, b.period from member_membership a
             join membership b on a.membership_id = b.membership_id 
             join classType c on a.classType_id = c.classType_id where a.gym_id = ? and a.member_id = ?`,
@@ -45,9 +44,23 @@ module.exports = {
     },
     buyMembership:function(post,gym_id,member_id){
         return new Promise(function(resolve,rejects){
-            db.query('insert into member_membership(GYM_id,member_id,membership_id,classType_id,startDay,countClass,payment,cash,card,accountReceivable,paymentDay) values(?,?,?,?,?,?,?,?,?,?,?)',
-            [gym_id,member_id,post.membership_id,post.classType_id,post.startDay,post.countClass,
+            db.query('insert into member_membership(GYM_id,member_id,membership_id,classType_id,startDay,endDay, maxCountClass, countClass,payment,cash,card,accountReceivable,paymentDay) values(?,?,?,?,?,?,?,?,?,?,?,?,?)',
+            [gym_id,member_id,post.membership_id,post.classType_id,post.startDay,post.endDay, post.MaxApply, post.countClass,
             post.payment,post.card,post.cash,post.accountReceivable,post.paymentDay],function(err,result){
+                if(err){
+                    console.log(err);
+                    rejects(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
+    },
+    selectMember_Mebership:function(post,gym_id,membershipId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select * from member_membership a join membership b on a.membership_id = b.membership_id 
+                where a.GYM_id = ? and  a.member_id = ? and a.membership_id =? and a.classType_id =?`,
+            [gym_id,post.member_id, membershipId, post.classType_id],function(err,result){
                 if(err){
                     console.log(err);
                     rejects(err);

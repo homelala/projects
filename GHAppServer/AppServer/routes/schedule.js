@@ -8,5 +8,5 @@ router.post('/register',scheduleController.createSchedule);
 router.post('/list/day',scheduleController.DayScheduleList);
 router.post('/list/week',scheduleController.WeekScheduleList);
 router.post('/list/month',scheduleController.MonthScheduleList);
-router.post('/reservation');
+router.post('/reserve', scheduleController.reserveSchedule);    
 module.exports = router;

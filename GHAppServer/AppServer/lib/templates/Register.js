@@ -362,6 +362,7 @@ module.exports = {
                         <form action="/user/membership/buy?id=${member_id}" method="post">
                             회원권: ${membershipList}<br>
                             시작일<input type="date" name="startDay"/><br>
+                            종료일<input type="date" name="endDay"/><br>
                             ${classTypeList} <br>
                             최대 수강 횟수: <input type="text" name="MaxApply"><br>
                             수강 횟수: <input type="text" name="countClass"><br>

@@ -81,5 +81,26 @@ module.exports = {
                 }
             })
         })
+    },
+    selectMembershipId:function(post,gymId,today){
+        return new Promise(function(resolve,rejects){
+            today = new Date();
+            var DayFormat = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
+            console.log(gymId,post.member_id, post.classType_id, DayFormat,DayFormat);
+            db.query('select * from member_membership where GYM_id = ? and member_id = ? and classType_id = ? and ? <= endDay and ? >=startDay'
+            ,[gymId,post.member_id, post.classType_id, DayFormat,DayFormat], function(err,result){
+                if(err){
+                    console.log(err);
+                    rejects(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
+    },
+    decreaseMembership:function(post,gymId){
+        return new Promise(function(resolve, rejects){
+            db.query('update member_membership set countlass = countClass+1,  where GYM_id = ? and member_id = ?')
+        })
     }
 }

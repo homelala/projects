@@ -234,7 +234,7 @@ module.exports = {
         </html>
         `
     },
-    scheduleList:async function(req,result){
+    scheduleList:async function(req,result,userList){
         var today = new Date();
         var DayFormat = `${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
         var gymInfo =auth.gymLogin(req);
@@ -243,8 +243,8 @@ module.exports = {
                         <tr>
                             <th>날짜</th>
                             <th>수업 명</th>
-                            <th>코치 명</th>
                             <th>시간</th>
+                            <th>코치 명</th>
                             <th>예약 인원</th>
                         <tr>`;
         for(var i = 0;i<result.length;i++){
@@ -254,13 +254,23 @@ module.exports = {
                 coachTemp += `${coachList[j].name} `
             }
             coachTemp+=`</td>`;
+            var userTemp = `<select name = "member_id">`
+            for(var r = 0;r<userList.length;r++){
+                userTemp += `<option value = "${userList[r].member_id}">${userList[r].name}</option>`
+            }
+            userTemp+='</select>'
             list += `<tr>
                         <td>${result[i].startDay}</td>
                         <td>${result[i].classType_name}</td>
                         <td>${result[i].startTime}~${result[i].period}</td>
                         ${coachTemp}
                         <td>${result[i].reserveNumber}</td>
-                        <td><a href = "/schedule/reservation">예약하기</a></td>
+                        <td><form action ="/schedule/reserve" method="post">
+                            <input type="hidden" name = "schedule_id" value="${result[i].id}"/>
+                            <input type="hidden" name = "classType_id" value="${result[i].classType_id}"/>
+                            ${userTemp}
+                            <input type = "submit" value = "예약하기"/>
+                        </form></td>
                     </tr>`  
         }
         list+=`</table>`
