@@ -1,11 +1,11 @@
 const express = require('express');
 const templateList = require('../lib/templates/List')
 const schedules = require('../model/schedule');
-const coachs = require('../model/coach');
 const members = require('../model/Members');
 const reserveBlocks = require('../model/reserveBlock');
 const expressSession = require('express-session');
 const membership = require('../model/membership');
+const memberClass = require('../model/memberClass')
 var app = express();
 app.use(expressSession({
     secret:'my key',
@@ -115,8 +115,6 @@ module.exports = {
         var template = await templateList.scheduleList(req,scheduleInfo,userInfo);
         res.send(template);
     },
-    //1. 예약 -> 인원 증가 -> 회원권 감소 -> 현재 예약 인원 확인 후 대기 결정 -> 수강 내역 추가
-    // 일일 최대 등록 수, 주간 최대 등록 수, 스케줄 총원 확인, 회원 멤버쉽 총원 확인, 스케줄 날짜 확인, 회원권 날짜 확인
     reserveSchedule: async function(req,res,next){
         //예약 가능 시간 인지 확인
         var today = new Date();
@@ -131,7 +129,10 @@ module.exports = {
         //스케줄 총원 확인
         var checkTotalReserve = (checkDaySchdedule[0].totalReservation > checkDaySchdedule[0].reserveNumber); // 현재 스케줄 예약 총원 확인
         // 회원이 가지고 있는 멤버쉽 id 찾기 (기간, 수업 방식, 회원 ID 확인)
-        var membershipInfo= await members.selectMembershipId(req.body,req.session.gym.GYM_id,today);
+        var membershipInfo= await membership.selectMembershipId(req.body,req.session.gym.GYM_id,today);
+        if(membershipInfo[0] == undefined){
+            res.send('사용가능 한 회원권이 없습니다.')
+        }
         var membership_id = membershipInfo[0].membership_id // 사용하는 멤버쉽
         var checkMemberchipCount = (membershipInfo[0].maxCountClass >membershipInfo[0].countClass); //멤버쉽 사용 가능 여부
 
@@ -139,12 +140,50 @@ module.exports = {
         var checkMaxAttend = await membership.selectMember_Mebership(req.body,req.session.gym.GYM_id,membership_id);
         var maxDayAttend = (checkMaxAttend[0].maxDayAttend > checkMaxAttend[0].DayAttend);
         var maxWeekAttend = (checkMaxAttend[0].maxWeekAttend > checkMaxAttend[0].weekAttend);
-        console.log(checkReserveAble, checkTotalReserve, maxDayAttend, maxWeekAttend)
-        // if(checkScheduleTotal[0].reserveNumber != checkScheduleTotal[0].totalReservation){
-        //     await schedules.reserveSchedule(req.post,req.session.gym.GYM_id);
-        // }else{
-        //     await schedules.waitingSchedule(req.post,req.session.gym.GYM_id);
-        // }
-        // await members.decreaseMebership(req.post, req.session.gym.GYM_id)
+
+        if(checkReserveAble){// 예약 가능 날짜 확인
+            if(checkMemberchipCount){ //회원권 사용 가능 여부 확인
+                if(maxDayAttend){ // 당일 최대 등록 횟수 확인
+                    if(maxWeekAttend){ // 주간 최대 등록 횟수 확인
+                        if(checkTotalReserve){// 수업 총원 확인
+                            //등록 성공
+                            try{
+                                await schedules.reserveSchedule(req.body,req.session.gym.GYM_id,checkMaxAttend[0].id);
+                            }catch(err){
+                                if(err.code === 'ER_DUP_ENTRY'){    
+                                    res.send('이미 예약된 회원입니다.')
+                                }
+                            }
+                        }else{
+                            //대기 번호 생성
+                            try{
+                                await schedules.waitingSchedule(req.body,req.session.gym.GYM_id);
+                            }catch(err){
+                                res.send('이미 신청되었습니다.')
+                            }
+                        }
+                        //회원권 차감
+                        var schduleInfo = await schedules.selectScheduleId(req.body,req.session.gym.GYM_id)
+                        await membership.decreaseMembership(req.body, req.session.gym.GYM_id, schduleInfo[0].decrease,checkMaxAttend[0].id)
+                        res.redirect('/');
+                    }else{
+                        res.send('주간 등록 횟수가 초과되었습니다.')
+                    }
+                }else{
+                    res.send('당일 등록 횟수가 초과되었습니다.')
+                }
+            }else{
+                res.send('회원권을 모두 사용하셨습니다.')
+            }
+        }else{
+            res.send('예약 가능 시간이 아닙니다.')
+        }
+    },
+    historySchedule:async function(req,res,next){
+        schedule_id = req.query.id;
+        var scheduleHistory = await memberClass.selectReserveHistory(schedule_id, req.session.gym.GYM_id);
+        var scheduleWaiting = await memberClass.selectWaitingMember(schedule_id, req.session.gym.GYM_id);
+        var template = await templateList.scheduleHistory(req,scheduleHistory,scheduleWaiting);
+        res.send(template);
     }
 }

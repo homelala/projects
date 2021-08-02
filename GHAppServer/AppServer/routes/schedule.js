@@ -4,6 +4,7 @@ const scheduleController = require('../controller/scheduleController');
 var router = express.Router();
 
 router.get('/register',templateRegister.registerSchedule);
+router.get('/history',scheduleController.historySchedule);
 router.post('/register',scheduleController.createSchedule);
 router.post('/list/day',scheduleController.DayScheduleList);
 router.post('/list/week',scheduleController.WeekScheduleList);

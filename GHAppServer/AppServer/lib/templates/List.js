@@ -245,6 +245,7 @@ module.exports = {
                             <th>수업 명</th>
                             <th>시간</th>
                             <th>코치 명</th>
+                            <th>총원</th>
                             <th>예약 인원</th>
                         <tr>`;
         for(var i = 0;i<result.length;i++){
@@ -264,6 +265,7 @@ module.exports = {
                         <td>${result[i].classType_name}</td>
                         <td>${result[i].startTime}~${result[i].period}</td>
                         ${coachTemp}
+                        <td>${result[i].total}</td>
                         <td>${result[i].reserveNumber}</td>
                         <td><form action ="/schedule/reserve" method="post">
                             <input type="hidden" name = "schedule_id" value="${result[i].id}"/>
@@ -271,6 +273,7 @@ module.exports = {
                             ${userTemp}
                             <input type = "submit" value = "예약하기"/>
                         </form></td>
+                        <td><a href="/schedule/history?id=${result[i].id}">히스토리</a></td>
                     </tr>`  
         }
         list+=`</table>`
@@ -305,6 +308,71 @@ module.exports = {
                     <input type="hidden" name="startDay" value="${DayFormat}" />
                     <input type="submit" value="월별"/>
                 </form>
+                ${list}
+            </body>
+        </html>
+        `
+    },
+    scheduleHistory:async function(req,reserveInfo,waitingInfo){
+        var gymInfo =auth.gymLogin(req);
+        var userInfo = auth.memberLogin(req);
+        var list = `<table>
+                        <tr>
+                            <th>날짜</th>
+                            <th>회원</th>
+                            <th>상태</th>
+                        <tr>`;
+        for(var i = 0;i<reserveInfo.length;i++){
+            var attend = reserveInfo[i].attend == 0?'예약':reserveInfo[i].attend == 1?'출석':reserveInfo[i].attend == 2?'지각':'결석'
+            list += `<tr>
+                        <td>${reserveInfo[i].date}</td>
+                        <td>${reserveInfo[i].name}</td>
+                        <td>${attend}</td>
+                        <td><form>
+                            <select name="status">
+                                <option value='1'>출석 처리하기</option>
+                                <option value='2'>지각 처리하기</option>
+                                <option value='3'>결석 처리하기</option>
+                            </select>
+                        </form></td>
+                        <td><a href="/user/info?id=${reserveInfo[i].member_id}">회원 정보 보기</a></td>
+                    </tr>`  
+        }
+        for(var i = 0;i<waitingInfo.length;i++){
+            list += `<tr>
+                        <td>${waitingInfo[i].date}</td>
+                        <td>${waitingInfo[i].name}</td>
+                        <td>대기 ${waitingInfo[i].waitingNumber}</td>
+                        <td><form>
+                            <select name="status">
+                                <option value='1'>출석 처리하기</option>
+                                <option value='2'>지각 처리하기</option>
+                                <option value='3'>결석 처리하기</option>
+                            </select>
+                        </form></td>
+                        <td><a href="/user/info?id=${waitingInfo[i].member_id}">회원 정보 보기</a></td>
+                    </tr>`  
+        }
+        list+=`</table>`
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>HOME</title>
+                ${gymInfo.location} ${userInfo.name}<br>
+                <a href="/login">지점 로그인</a>
+                <a href="/user/login">회원 로그인</a>
+            </head>
+            <h1>WELCOME!</h1>
+            <body>
+                <a href="/register">지점 가입</a>
+                <a href="/user/register">회원 가입</a>
+                <a href="/coach/register">코치 등록</a>
+                <br>
+                <a href="/user/list?expire=0">회원 보기</a>
+                <a href="/coach/list">코치 보기</a>
+                <a href="/membership/list">회원권 보기</a>
+                <br>
                 ${list}
             </body>
         </html>

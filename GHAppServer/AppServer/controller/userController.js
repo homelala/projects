@@ -3,7 +3,6 @@ const templateList = require('../lib/templates/List');
 const templateInfo = require('../lib/templates/info');
 const members = require('../model/Members.js')
 const memberships = require('../model/membership');
-const classTypes = require('../model/classType');
 const expressSession = require('express-session');
 var app = express();
 app.use(expressSession({
@@ -17,7 +16,6 @@ app.use(expressSession({
 
 module.exports = {
     createMember:function(req,res,next){
-        console.log(req.body);
         members.insertMember(req.body,req.session.gym).then(function(result){
             res.send('welcome')
         }).catch(function(){

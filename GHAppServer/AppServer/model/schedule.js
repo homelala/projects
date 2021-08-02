@@ -43,7 +43,7 @@ module.exports = {
     DayScheduleList:function(post,gymId){
         return new Promise(function(resolve,rejects){
             db.query(`
-            select distinct a.class_id id, d.name classType_name, d.classType_id classType_id, a.startDay startDay, a.startTime startTime, Date_add(a.startTime, Interval a.period minute) period, a.reserveNumber
+            select distinct a.class_id id, d.name classType_name, d.classType_id classType_id, a.startDay startDay, a.totalReservation total, a.startTime startTime, Date_add(a.startTime, Interval a.period minute) period, a.reserveNumber
             from class a 
             join coach_class b on a.class_id = b.class_id 
             join classtype d on a.classType_id = d.classType_id where a.GYM_id = ? and a.startDay = ?
@@ -60,7 +60,7 @@ module.exports = {
     MonthScheduleList:function(post,gymId){
         return new Promise(function(resolve,rejects){
             db.query(`
-            select distinct a.class_id id, d.name classType_name, d.classType_id classType_id, a.startDay startDay, a.startTime startTime, Date_add(a.startTime, Interval a.period minute) period, a.reserveNumber
+            select distinct a.class_id id, d.name classType_name, d.classType_id classType_id, a.startDay startDay, a.totalReservation total, a.startTime startTime, Date_add(a.startTime, Interval a.period minute) period, a.reserveNumber
             from class a 
             join coach_class b on a.class_id = b.class_id 
             join classtype d on a.classType_id = d.classType_id where a.GYM_id = ? and (a.startDay > Last_DAY(now()- interval 1 month) and a.startDay <= Last_Day(now()))
@@ -77,7 +77,7 @@ module.exports = {
     WeekScheduleList:function(post,gymId){
         return new Promise(function(resolve,rejects){
             db.query(`
-            select distinct a.class_id id, d.name classType_name,  d.classType_id classType_id, a.startDay startDay, a.startTime startTime, Date_add(a.startTime, Interval a.period minute) period, a.reserveNumber
+            select distinct a.class_id id, d.name classType_name,  d.classType_id classType_id, a.startDay startDay, a.totalReservation total, a.startTime startTime, Date_add(a.startTime, Interval a.period minute) period, a.reserveNumber
             from class a 
             join coach_class b on a.class_id = b.class_id 
             join classtype d on a.classType_id = d.classType_id where a.GYM_id = ? and week(a.startDay) = week(?)
@@ -104,7 +104,7 @@ module.exports = {
             })
         })
     },
-    selectClass:function(post,gymId){
+    selectScheduleId:function(post,gymId){
         return new Promise(function(resolve,rejects){
             db.query(`select * from class where GYM_id = ? and class_id =?`,[gymId,post.schedule_id],function(err,result){
                 if(err){
@@ -116,28 +116,45 @@ module.exports = {
             });
         })
     },
-    reserveSchedule:function(post,gymId){
+    reserveSchedule:function(post,gymId,member_membership_id){
         return new Promise(function(resolve, rejects){
-            db.query(`insert into member_class(GYM_id, class_id, member_id, attend) values(?,?,?,?,?)`,
-            [gymId, post.schedule_id, post.user_id,0],function(err,result){
+            db.query(`insert into member_class(GYM_id, class_id, member_membership_id, member_id, attend) values(?,?,?,?,?)`,
+            [gymId, post.schedule_id, member_membership_id, post.member_id,0],function(err,result){
                 if(err){
                     console.log(err);
                     rejects(err);
                 }else{
-                    resolve(result);
+                    db.query(`update class set reserveNumber = reserveNumber+1 where class_id = ?`,[post.schedule_id],function(err,result){
+                        if(err){
+                            rejects(err);
+                        }else{
+                            resolve(result);
+                        }
+                    })
                 }
             })
         })
     },
     waitingSchedule:function(post,gymId){
         return new Promise(function(resolve, rejects){
-            db.query(`insert into waitingmember(GYM_id, class_id, member_id, waitingNumber) values(?,?,?,(SELECT IFNULL(MAX(waitingNumber) + 1, 1))`
-            ,[gymId,post.schedule_id,post.member_id],function(err,result){
+            db.query('select * from member_class where member_id = ? and class_id = ? ',[post.member_id, post.schedule_id],function(err,info){
                 if(err){
-                    console.log(err);
                     rejects(err);
                 }else{
-                    resolve(result);
+                    if(info[0] != undefined){
+                        console.log(info);
+                        rejects(err);
+                    }else{
+                        db.query(`insert into waitingmember(GYM_id, class_id, member_id, waitingNumber) values(?,?,?,(SELECT IFNULL(MAX(waitingNumber) + 1,1) as maxNumber from waitingmember a) )`
+                        ,[gymId,post.schedule_id,post.member_id],function(err,result){
+                            if(err){
+                                console.log(err);
+                                rejects(err);
+                            }else{
+                                resolve(result);
+                            }
+                        })
+                    }
                 }
             })
         })
