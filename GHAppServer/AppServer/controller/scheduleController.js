@@ -6,6 +6,7 @@ const reserveBlocks = require('../model/reserveBlock');
 const expressSession = require('express-session');
 const membership = require('../model/membership');
 const memberClass = require('../model/memberClass')
+const waitingMembers = require('../model/waitingMember');
 var app = express();
 app.use(expressSession({
     secret:'my key',
@@ -150,14 +151,12 @@ module.exports = {
                             try{
                                 await schedules.reserveSchedule(req.body,req.session.gym.GYM_id,checkMaxAttend[0].id);
                             }catch(err){
-                                if(err.code === 'ER_DUP_ENTRY'){    
-                                    res.send('이미 예약된 회원입니다.')
-                                }
+                                res.send('이미 예약된 회원입니다.')
                             }
                         }else{
                             //대기 번호 생성
                             try{
-                                await schedules.waitingSchedule(req.body,req.session.gym.GYM_id);
+                                await schedules.waitingSchedule(req.body,req.session.gym.GYM_id,checkMaxAttend[0].id);
                             }catch(err){
                                 res.send('이미 신청되었습니다.')
                             }
@@ -185,5 +184,41 @@ module.exports = {
         var scheduleWaiting = await memberClass.selectWaitingMember(schedule_id, req.session.gym.GYM_id);
         var template = await templateList.scheduleHistory(req,scheduleHistory,scheduleWaiting);
         res.send(template);
+    },
+    updateReserveStatus:async function(req,res,next){
+        var status = req.body.status;
+        var schduleInfo = await schedules.selectScheduleId(req.body,req.session.gym.GYM_id)
+        if(status == 0){ 
+            //회원 수강 내역 삭제
+            var deleteInfo = await memberClass.cancelReservation(req.body, req.session.gym.GYM_id);
+            //주간, 일간 등록 횟수 삭제
+            await membership.cancelReserveMembership(schduleInfo[0].decrease,deleteInfo[0].member_membership_id);
+            //대기 회원 상태 변경
+            var waitMember = await memberClass.minWaitingMember(req.body);
+            console.log(waitMember[0]);
+            if(waitMember[0] == undefined){
+                //총원 감소
+                await schedules.cancelReservation(req.body, req.session.gym.GYM_id);
+            }else{
+                await memberClass.ReserveWaitingMember(req.body,req.session.gym.GYM_id,waitMember[0]);
+                await waitingMembers.deleteWaitingMember(req.body);
+                await waitingMembers.updateReserve(req.body);
+            }
+        }else{
+            await memberClass.updateStatus(req.body,req.session.gym.GYM_id);
+        }
+        res.redirect(`/schedule/history?id=${req.body.schedule_id}`)
+    },
+    
+    updateWaitingStatus:async function(req,res,next){
+        //스케줄 정보 받아오기
+        var schduleInfo = await schedules.selectScheduleId(req.body,req.session.gym.GYM_id)
+        //회원 대기 목록 삭제
+        var waitingMember = await memberClass.selectWaitingMember(req.body.schedule_id, req.session.gym.GYM_id);
+        await waitingMembers.deleteWaitingMember(req.body);
+        await waitingMembers.updateReserve(req.body);
+        //주간, 일간 등록 횟수 삭제
+        await membership.cancelReserveMembership(schduleInfo[0].decrease,waitingMember[0].member_membership_id);
+        res.redirect(`/schedule/history?id=${req.body.schedule_id}`)
     }
 }

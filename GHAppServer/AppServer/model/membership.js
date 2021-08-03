@@ -1,3 +1,4 @@
+const { rejects } = require('assert');
 const db = require('../lib/mysql');
 
 module.exports = {
@@ -87,7 +88,21 @@ module.exports = {
     },
     decreaseMembership:function(post,gymId, decrease, id){
         return new Promise(function(resolve, rejects){
-            db.query(`update member_membership set countClass = countClass+? where id= ?`,[decrease,id],function(err,result){
+            db.query(`update member_membership set countClass = countClass+?, DayAttend = DayAttend+?, weekAttend = weekAttend +? where id= ?`
+            ,[decrease,decrease,decrease,id],function(err,result){
+                if(err){
+                    console.log(err);
+                    rejects(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
+    },
+    cancelReserveMembership:function(decrease,id){
+        return new Promise(function(resolve, rejects){
+            db.query(`update member_membership set countClass = countClass-?, DayAttend = DayAttend-?, weekAttend = weekAttend -? where id= ?`
+            ,[decrease,decrease,decrease,id],function(err,result){
                 if(err){
                     console.log(err);
                     rejects(err);

@@ -118,35 +118,46 @@ module.exports = {
     },
     reserveSchedule:function(post,gymId,member_membership_id){
         return new Promise(function(resolve, rejects){
-            db.query(`insert into member_class(GYM_id, class_id, member_membership_id, member_id, attend) values(?,?,?,?,?)`,
-            [gymId, post.schedule_id, member_membership_id, post.member_id,0],function(err,result){
+            db.query(`select * from member_class a left outer join waitingMember b on a.GYM_id = b.GYM_id where (a.member_id = ? and a.class_id = ?) or (b.member_id = ? and b.class_id = ?) `,
+            [post.member_id, post.schedule_id,post.member_id, post.schedule_id],
+                function(err,userInfo){
+                    if(userInfo[0] !== undefined){
+                        rejects(err);
+                    }else{
+                        db.query(`insert into member_class(GYM_id, class_id, member_membership_id, member_id, attend) values(?,?,?,?,?)`,
+                        [gymId, post.schedule_id, member_membership_id, post.member_id,0],function(err,result){
+                            if(err){
+                                console.log(err);
+                                rejects(err);
+                            }else{
+                                db.query(`update class set reserveNumber = reserveNumber+1 where class_id = ?`,[post.schedule_id],function(err,result){
+                                    if(err){
+                                        rejects(err);
+                                    }else{
+                                        resolve(result);
+                                    }
+                                })
+                            }
+                        })
+                    }
+            })
+        })
+    },
+    waitingSchedule:function(post,gymId,membershipId){
+        return new Promise(function(resolve, rejects){
+            db.query('select * from member_class a left outer join waitingMember b on a.GYM_id = b.GYM_id where (a.member_id = ? and a.class_id = ?) or (b.member_id = ? and b.class_id = ?) ',
+                    [post.member_id, post.schedule_id,post.member_id, post.schedule_id],function(err,info){
                 if(err){
                     console.log(err);
                     rejects(err);
                 }else{
-                    db.query(`update class set reserveNumber = reserveNumber+1 where class_id = ?`,[post.schedule_id],function(err,result){
-                        if(err){
-                            rejects(err);
-                        }else{
-                            resolve(result);
-                        }
-                    })
-                }
-            })
-        })
-    },
-    waitingSchedule:function(post,gymId){
-        return new Promise(function(resolve, rejects){
-            db.query('select * from member_class where member_id = ? and class_id = ? ',[post.member_id, post.schedule_id],function(err,info){
-                if(err){
-                    rejects(err);
-                }else{
-                    if(info[0] != undefined){
-                        console.log(info);
+                    console.log(post.member_id, post.schedule_id);
+                    if(info[0] != undefined){ //이미 예약된 회원일 때 거부
                         rejects(err);
                     }else{
-                        db.query(`insert into waitingmember(GYM_id, class_id, member_id, waitingNumber) values(?,?,?,(SELECT IFNULL(MAX(waitingNumber) + 1,1) as maxNumber from waitingmember a) )`
-                        ,[gymId,post.schedule_id,post.member_id],function(err,result){
+                        db.query(`insert into waitingmember(GYM_id, class_id, member_id, member_membership_id ,waitingNumber) values(?,?,?,?,(SELECT IFNULL(MAX(waitingNumber) + 1,1) 
+                                as maxNumber from waitingmember a where class_id = ?) )`
+                        ,[gymId,post.schedule_id,post.member_id,membershipId,post.schedule_id],function(err,result){
                             if(err){
                                 console.log(err);
                                 rejects(err);
@@ -155,6 +166,18 @@ module.exports = {
                             }
                         })
                     }
+                }
+            })
+        })
+    },
+    cancelReservation:function(post,gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`update class set reserveNumber = reserveNumber -1 where class_id = ? and GYM_id = ?`,[post.schedule_id,gymId],function(err,result){
+                if(err){
+                    console.log(err);
+                    rejects(err)
+                }else{
+                    resolve(result);
                 }
             })
         })

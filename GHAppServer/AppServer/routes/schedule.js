@@ -10,4 +10,6 @@ router.post('/list/day',scheduleController.DayScheduleList);
 router.post('/list/week',scheduleController.WeekScheduleList);
 router.post('/list/month',scheduleController.MonthScheduleList);
 router.post('/reserve', scheduleController.reserveSchedule);    
+router.post('/ReserveStatus',scheduleController.updateReserveStatus);
+router.post('/WaitingStatus',scheduleController.updateWaitingStatus)
 module.exports = router;

@@ -328,12 +328,16 @@ module.exports = {
                         <td>${reserveInfo[i].date}</td>
                         <td>${reserveInfo[i].name}</td>
                         <td>${attend}</td>
-                        <td><form>
+                        <td><form action ="/schedule/ReserveStatus" method="post">
+                            <input type="hidden" name = "member_id" value="${reserveInfo[i].member_id}"/>
+                            <input type="hidden" name = "schedule_id" value="${req.query.id}"/>
                             <select name="status">
+                                <option value ='0'>예약 취소하기</option>
                                 <option value='1'>출석 처리하기</option>
                                 <option value='2'>지각 처리하기</option>
                                 <option value='3'>결석 처리하기</option>
                             </select>
+                            <input type="submit" value="수정하기">
                         </form></td>
                         <td><a href="/user/info?id=${reserveInfo[i].member_id}">회원 정보 보기</a></td>
                     </tr>`  
@@ -343,12 +347,13 @@ module.exports = {
                         <td>${waitingInfo[i].date}</td>
                         <td>${waitingInfo[i].name}</td>
                         <td>대기 ${waitingInfo[i].waitingNumber}</td>
-                        <td><form>
+                        <td><form action ="/schedule/WaitingStatus" method="post">
+                            <input type="hidden" name = "member_id" value="${waitingInfo[i].member_id}"/>
+                            <input type="hidden" name = "schedule_id" value="${req.query.id}"/>
                             <select name="status">
-                                <option value='1'>출석 처리하기</option>
-                                <option value='2'>지각 처리하기</option>
-                                <option value='3'>결석 처리하기</option>
+                                <option value ='0'>대기 취소하기</option>
                             </select>
+                            <input type="submit" value="수정하기">
                         </form></td>
                         <td><a href="/user/info?id=${waitingInfo[i].member_id}">회원 정보 보기</a></td>
                     </tr>`  
