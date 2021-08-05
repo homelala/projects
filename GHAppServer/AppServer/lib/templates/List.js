@@ -37,12 +37,12 @@ module.exports = {
                 <a href="/coach/register">코치 등록</a>
                 <a href="/membership/register">회원권 등록</a>
                 <br>
-                <a href="/user/list?expire=0">회원 보기</a>
+                <a href="/user/list/active">회원 보기</a>
                 <a href="/coach/list">코치 보기</a>
                 <a href="/membership/list">회원권 보기</a>
                 <br>
-                <a href="/user/list?expire=0">유효 회원 보기</a>
-                <a href="/user/list?expire=1">만료 회원 보기</a>
+                <a href="/user/list/active">유효 회원 보기</a>
+                <a href="/user/list/expire">만료 회원 보기</a>
                 <a href="/user/list/Approve">승인 대기 회원 보기</a>
                 ${list}
             </body>
@@ -96,12 +96,12 @@ module.exports = {
                 <a href="/coach/register">코치 등록</a>
                 <a href="/membership/register">회원권 등록</a>
                 <br>
-                <a href="/user/list?expire=0">회원 보기</a>
+                <a href="/user/list/active">회원 보기</a>
                 <a href="/coach/list">코치 보기</a>
                 <a href="/membership/list">회원권 보기</a>
                 <br>
-                <a href="/user/list?expire=0">유효 회원 보기</a>
-                <a href="/user/list?expire=1">만료 회원 보기</a>
+                <a href="/user/list/active">유효 회원 보기</a>
+                <a href="/user/list/expire">만료 회원 보기</a>
                 <a href="/user/list/Approve">승인 대기 회원 보기</a>
                 ${list}
             </body>
@@ -141,7 +141,7 @@ module.exports = {
                 <a href="/user/register">회원 가입</a>
                 <a href="/coach/register">코치 등록</a>
                 <br>
-                <a href="/user/list?expire=0">회원 보기</a>
+                <a href="/user/list/active">회원 보기</a>
                 <a href="/coach/list">코치 보기</a>
                 <a href="/membership/list">회원권 보기</a>
                 ${list}
@@ -186,7 +186,7 @@ module.exports = {
                 <a href="/user/register">회원 가입</a>
                 <a href="/coach/register">코치 등록</a>
                 <br>
-                <a href="/user/list?expire=0">회원 보기</a>
+                <a href="/user/list/active">회원 보기</a>
                 <a href="/coach/list">코치 보기</a>
                 <a href="/membership/list">회원권 보기</a>
                 ${list}
@@ -226,7 +226,7 @@ module.exports = {
                 <a href="/user/register">회원 가입</a>
                 <a href="/coach/register">코치 등록</a>
                 <br>
-                <a href="/user/list?expire=0">회원 보기</a>
+                <a href="/user/list/active">회원 보기</a>
                 <a href="/coach/list">코치 보기</a>
                 <a href="/membership/list">회원권 보기</a>
                 ${list}
@@ -292,7 +292,7 @@ module.exports = {
                 <a href="/user/register">회원 가입</a>
                 <a href="/coach/register">코치 등록</a>
                 <br>
-                <a href="/user/list?expire=0">회원 보기</a>
+                <a href="/user/list/active">회원 보기</a>
                 <a href="/coach/list">코치 보기</a>
                 <a href="/membership/list">회원권 보기</a>
                 <br>
@@ -374,7 +374,7 @@ module.exports = {
                 <a href="/user/register">회원 가입</a>
                 <a href="/coach/register">코치 등록</a>
                 <br>
-                <a href="/user/list?expire=0">회원 보기</a>
+                <a href="/user/list/active">회원 보기</a>
                 <a href="/coach/list">코치 보기</a>
                 <a href="/membership/list">회원권 보기</a>
                 <br>

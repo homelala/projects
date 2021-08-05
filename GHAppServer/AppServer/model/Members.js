@@ -25,9 +25,23 @@ module.exports = {
             })
         })
     },
-    memberList:function(gymId,expireV){
+    memberList:function(gymId){
         return new Promise(function(resolve,rejects){
-            db.query('select * from member where GYM_id = ? and expire = ? and approve = 0', [gymId,expireV], function(err,userInfo){
+            db.query('select * from member a join member_membership b on a.member_id = b.member_id where b.endDay >= now() and b.maxCountClass != b.countClass and a.GYM_id = ? group by a.member_id', [gymId], function(err,userInfo){
+                if(err){
+                    rejects(err);
+                }else{
+                    resolve(userInfo);
+                }
+            })
+        })
+    },
+    memberListExpire:function(gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select * from member c where c.member_id not in 
+            (select a.member_id id from member a join member_membership b on a.member_id = b.member_id where b.endDay >= now() and b.maxCountClass != b.countClass ) 
+            and GYM_id = ? and approve = 0
+            `, [gymId], function(err,userInfo){
                 if(err){
                     rejects(err);
                 }else{

@@ -4,6 +4,8 @@ const templateInfo = require('../lib/templates/info');
 const members = require('../model/Members.js')
 const memberships = require('../model/membership');
 const expressSession = require('express-session');
+const memberClass = require('../model/memberClass');
+const coachs = require('../model/coach');
 var app = express();
 app.use(expressSession({
     secret:'my key',
@@ -37,8 +39,16 @@ module.exports = {
         });
     },
     memberListActive:function(req,res){
-        var expire = req.query.expire;
-        members.memberList(req.session.gym.GYM_id,expire).then(function(result){
+        members.memberList(req.session.gym.GYM_id).then(function(result){
+            var temp = templateList.memberList(req,result);
+            res.send(temp);
+        }).catch(function(err){
+            console.log(err);
+            res.send('sorry')
+        })
+    },
+    memberListExpire:function(req,res){
+        members.memberListExpire(req.session.gym.GYM_id).then(function(result){
             var temp = templateList.memberList(req,result);
             res.send(temp);
         }).catch(function(err){
@@ -57,7 +67,7 @@ module.exports = {
     },
     approveMember:function(req,res){
         members.updateApprove(req.body).then(function(result){
-            res.redirect('/user/list?expire=0');
+            res.redirect('/user/list/active');
         }).catch(function(err){
             res.send(err);
         })
@@ -98,5 +108,13 @@ module.exports = {
             console.log(err);
             res.send(err);
         })
+    },
+    memberHistory:async function(req,res,next){
+        var member_id = req.query.id;
+        var memberInfo = await members.memberInfo(req.session.gym.GYM_id,member_id);
+        var memberClassInfo = await memberClass.memberHistory(member_id,req.session.gym.GYM_id);
+        var memberWaitInfo = await memberClass.memberWaitHistory(member_id,req.session.gym.GYM_id);
+        var template = await templateInfo.memberHistory(req, memberInfo, memberClassInfo,memberWaitInfo)
+        res.send(template)
     }
 }

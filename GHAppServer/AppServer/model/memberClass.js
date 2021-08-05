@@ -27,7 +27,7 @@ module.exports = {
     },
     cancelReservation:function(post, gymId){
         return new Promise(function(resolve,rejects){
-            db.query('select * from member_class where class_id = ? and member_id =?',[post.schedule_id,post.member_id],function(err,deleteInfo){
+            db.query('select     * from member_class where class_id = ? and member_id =?',[post.schedule_id,post.member_id],function(err,deleteInfo){
                 if(err){
                     rejects(err);
                 }else{
@@ -79,6 +79,42 @@ module.exports = {
                     resolve(result);
                 }
             })
+        })
+    },
+    memberHistory:function(memberId, gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select b.class_id id, c.name classType_name, a.date date, e.name membership_name, b.decrease decrease, a.attend attend
+                    from member_class a join class b on a.class_id = b.class_id 
+                    join classType c on b.classType_id = c.classType_id 
+                    join member_membership d on a.member_membership_id = d.id
+                    join membership e on d.membership_id = e.membership_id 
+                    where a.GYM_id = ? and a.member_id =?
+                    `,[gymId, memberId],function(err,result){
+                    if(err){
+                        console.log(err);
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }    
+                })
+        })
+    },
+    memberWaitHistory:function(memberId, gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select b.class_id id, c.name classType_name, a.date date, e.name membership_name, b.decrease decrease
+                    from waitingMember a join class b on a.class_id = b.class_id 
+                    join classType c on b.classType_id = c.classType_id 
+                    join member_membership d on a.member_membership_id = d.id
+                    join membership e on d.membership_id = e.membership_id 
+                    where a.GYM_id = ? and a.member_id =?
+                    `,[gymId, memberId],function(err,result){
+                    if(err){
+                        console.log(err);
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }    
+                })
         })
     }
 }
