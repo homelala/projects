@@ -114,7 +114,7 @@ module.exports = {
         var memberInfo = await members.memberInfo(req.session.gym.GYM_id,member_id);
         var memberClassInfo = await memberClass.memberHistory(member_id,req.session.gym.GYM_id);
         var memberWaitInfo = await memberClass.memberWaitHistory(member_id,req.session.gym.GYM_id);
-        var template = await templateInfo.memberHistory(req, memberInfo, memberClassInfo,memberWaitInfo)
+        var template = await templateInfo.memberHistory(req, memberInfo, memberClassInfo, memberWaitInfo)
         res.send(template)
     }
 }

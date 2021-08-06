@@ -27,7 +27,7 @@ module.exports = {
     },
     cancelReservation:function(post, gymId){
         return new Promise(function(resolve,rejects){
-            db.query('select     * from member_class where class_id = ? and member_id =?',[post.schedule_id,post.member_id],function(err,deleteInfo){
+            db.query('select * from member_class where class_id = ? and member_id =?',[post.schedule_id,post.member_id],function(err,deleteInfo){
                 if(err){
                     rejects(err);
                 }else{
@@ -108,13 +108,13 @@ module.exports = {
                     join membership e on d.membership_id = e.membership_id 
                     where a.GYM_id = ? and a.member_id =?
                     `,[gymId, memberId],function(err,result){
-                    if(err){
+                    if(err){ 
                         console.log(err);
                         rejects(err);
                     }else{
                         resolve(result);
                     }    
-                })
+                })                                         
         })
     }
 }

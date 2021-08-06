@@ -186,6 +186,7 @@ module.exports = {
         var status = req.body.status;
         var schduleInfo = await schedules.selectScheduleId(req.body,req.session.gym.GYM_id)
         if(status == 0){ 
+            //시간 추가 여부 확인 
             //회원 수강 내역 삭제
             var deleteInfo = await memberClass.cancelReservation(req.body, req.session.gym.GYM_id);
             //주간, 일간 등록 횟수 삭제
@@ -201,7 +202,21 @@ module.exports = {
                 await waitingMembers.updateReserve(req.body);
             }
         }else{
-            await memberClass.updateStatus(req.body,req.session.gym.GYM_id);
+            //출석 체크 가능 시간 확인
+            var today = new Date();
+            var checkDaySchdedule = await schedules.selectSchedule(req.body, req.session.gym.GYM_id);
+            var attendTime = await new Date(checkDaySchdedule[0].startDay.getFullYear(), 
+                                    checkDaySchdedule[0].startDay.getMonth(), 
+                                    checkDaySchdedule[0].startDay.getDate()
+                                    ,parseInt(checkDaySchdedule[0].startTime.slice(0,2))+9
+                                    ,parseInt(checkDaySchdedule[0].startTime.slice(3,5))-checkDaySchdedule[0].checkAttendTime
+                                    ,parseInt(checkDaySchdedule[0].startTime.slice(6,8)));
+            var checkUpdateStatus = (attendTime < today)
+            if(checkUpdateStatus){
+                await memberClass.updateStatus(req.body,req.session.gym.GYM_id);
+            }else{
+                res.send('아직 출석 체크 시간이 아닙니다.')
+            }
         }
         res.redirect(`/schedule/history?id=${req.body.schedule_id}`)
     },
