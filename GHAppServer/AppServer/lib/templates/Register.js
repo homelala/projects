@@ -12,7 +12,6 @@ module.exports = {
             <body>
                 <form action="/user/register_process" method="post">
                     Profile Image <br><input type="file" name="image" accept=".jpg, .jpeg, .png"/><br>
-                    <input type="text" name="id" placeholder="ID"/><br>
                     <input type="text" name="name" placeholder="이름"/><br>
                     <input type="text" name="email" placeholder="email"/><br>
                     <input type="password" name="passwd" placeholder="비밀번호"/><br>

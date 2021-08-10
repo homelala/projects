@@ -60,7 +60,7 @@ module.exports = {
     selectMember_Mebership:function(post,gym_id,membershipId){
         return new Promise(function(resolve,rejects){
             db.query(`select * from member_membership a join membership b on a.membership_id = b.membership_id 
-                where a.GYM_id = ? and  a.member_id = ? and a.membership_id =? and a.classType_id =?`,
+                where a.GYM_id = ? and  a.member_id = ? and a.id =? and a.classType_id =?`,
             [gym_id,post.member_id, membershipId, post.classType_id],function(err,result){
                 if(err){
                     console.log(err);

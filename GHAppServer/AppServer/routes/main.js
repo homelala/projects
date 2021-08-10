@@ -2,11 +2,9 @@ const express = require('express');
 const template = require('../lib/templates/home');
 const templateRegister = require('../lib/templates/Register');
 const templateLogin = require('../lib/templates/Login');
-const db = require('../lib/mysql');
 const GymController = require('../controller/gymController');
 const gymController = require('../controller/gymController');
 var router = express.Router();
-
 
 router.get('/',function(req,res){
     var temp = template.home(req);

@@ -18,7 +18,7 @@ router.get('/login',function(req,res){
 
 //유저 회원 등록
 router.post('/register_process', userController.createMember);
-//Log in
+//Log in 
 router.post('/LogIn_process',userController.loginMember);
 //유효 회원 보기
 router.get('/list/active',userController.memberListActive);

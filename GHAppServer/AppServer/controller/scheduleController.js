@@ -131,10 +131,11 @@ module.exports = {
         var checkTotalReserve = (checkDaySchdedule[0].totalReservation > checkDaySchdedule[0].reserveNumber); // 현재 스케줄 예약 총원 확인
         // 회원이 가지고 있는 멤버쉽 id 찾기 (기간, 수업 방식, 회원 ID 확인)
         var membershipInfo= await membership.selectMembershipId(req.body,req.session.gym.GYM_id,today);
+        console.log(membershipInfo)
         if(membershipInfo[0] == undefined){
             res.send('사용가능 한 회원권이 없습니다.')
         }
-        var membership_id = membershipInfo[0].membership_id // 사용하는 멤버쉽
+        var membership_id = membershipInfo[0].id // 사용하는 멤버쉽
         var checkMemberchipCount = (membershipInfo[0].maxCountClass >membershipInfo[0].countClass); //멤버쉽 사용 가능 여부
 
         // 일일 최대 등록수, 주간 최대 등록 수 확인
