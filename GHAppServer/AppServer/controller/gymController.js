@@ -12,7 +12,6 @@ app.use(expressSession({
 }))
 module.exports = {
     createGYM:function(req,res,next){
-        console.log(req)
         gyms.insertGYM(req.body).then(function(result){
             res.send('welcome')
         }).catch(function(){

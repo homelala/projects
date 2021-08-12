@@ -439,5 +439,23 @@ module.exports = {
         }).catch(function(err){
             console.log(err);
         })
-    }
+    },
+    RegisterCoach:function(){
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>Register</title>
+            </head>
+            <h1>공지사항 등록</h1>
+            <body>
+                <form action="/notice/register_process" method="post">
+                    <input type="text" name="title" placeholder="제목"/><br>
+                    <textarea name = "description"></textarea>
+                    <input type="submit" value="등록"/><br>
+                </form>
+            </body>
+        </html>
+        `
+    },
 }

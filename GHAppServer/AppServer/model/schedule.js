@@ -5,7 +5,7 @@ module.exports = {
     maxCategoryId:function(gymId){
         return new Promise(function(resolve,rejects){
             db.query('select max(category) maxCatgory from class where GYM_id = ?',[gymId],function(err,categoryId){
-                id = categoryId[0].maxCatgory == null ? 1:categoryId[0].maxCatgory+1;
+                id = categoryId == undefined ? 1:categoryId[0].maxCatgory+1;
                 if(err){
                     console.log(err);
                     rejects(err);

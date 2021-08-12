@@ -7,6 +7,7 @@ var coachRoute = require('./routes/coach');
 var membershipRoute = require('./routes/membership');
 var classRoute = require('./routes/classType');
 var scheduleRoute = require('./routes/schedule');
+var noticeRoute = require('./routes/notice')
 const expressSession = require('express-session');
 const { swaggerUi, specs } = require('./lib/swagger');
 app.use(expressSession({
@@ -29,6 +30,7 @@ app.use('/coach', coachRoute);
 app.use('/membership', membershipRoute);
 app.use('/class', classRoute);
 app.use('/schedule',scheduleRoute);
+app.use('/notice',noticeRoute);
 
 app.use(function (req, res, next) {
     res.status(404).send('Sorry cant find that!');

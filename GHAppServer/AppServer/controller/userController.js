@@ -76,6 +76,7 @@ module.exports = {
         var member_id = req.query.id;
         members.memberInfo(req.session.gym.GYM_id,member_id).then(function(memberInfo){
             memberships.useMembershipInfo(req.session.gym.GYM_id,member_id).then(function(membershipInfo){
+                console.log(membershipInfo)
                 var template = templateInfo.MemberInfo(req,memberInfo,membershipInfo);
                 res.send(template);
             }).catch(function(err){

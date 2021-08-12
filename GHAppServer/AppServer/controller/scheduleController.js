@@ -18,7 +18,13 @@ app.use(expressSession({
 }))
 async function insert(endDay,dayList,req,period,post){
     var tempDay = new Date(post.startDay);
-    await schedules.insertSchedule(req.body,req.session.gym.GYM_id,id,tempDay);
+    console.log(tempDay)
+    var insertScheduleInfo = await schedules.insertSchedule(req.body,req.session.gym.GYM_id,id,tempDay);
+    if(insertScheduleInfo !== undefined){
+        for(var i =0;i<post.coach_id.length;i++){
+            await schedules.insertCoachSchedule(req.session.gym.GYM_id,insertScheduleInfo.insertId,post.coach_id[i],);
+        }
+    }
     while(tempDay<=endDay){
         var start = tempDay.getDay();
         var nextSun = tempDay.getDate()-start + period;

@@ -382,5 +382,46 @@ module.exports = {
             </body>
         </html>
         `
+    },
+    noticeList:function(req,noticeInfo){
+        var gymInfo =auth.gymLogin(req);
+        var userInfo = auth.memberLogin(req);
+        var list = `<table>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>일시</th>
+                        <tr>`;
+        for(var i = 0;i<noticeInfo.length;i++){
+            list += `<tr>
+                        <td>${noticeInfo[i].id}</td>
+                        <td>${noticeInfo[i].title}</td>
+                        <td>${noticeInfo[i].date}</td>
+                    </tr>`
+        }
+        list+=`</table>`
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>HOME</title>
+                ${gymInfo.location} ${userInfo.name}<br>
+                <a href="/login">지점 로그인</a>
+                <a href="/user/login">회원 로그인</a>
+            </head>
+            <h1>공지 사항</h1>
+            <body>
+                <a href="/register">지점 가입</a>
+                <a href="/user/register">회원 가입</a>
+                <a href="/coach/register">코치 등록</a>
+                <br>
+                <a href="/user/list/active">회원 보기</a>
+                <a href="/coach/list">코치 보기</a>
+                <a href="/membership/list">회원권 보기</a>
+                <a href="/notice/register">공지사항 등록</a>
+                ${list}
+            </body>
+        </html>
+        `
     }
 }

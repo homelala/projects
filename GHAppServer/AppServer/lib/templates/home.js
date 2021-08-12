@@ -32,6 +32,7 @@ module.exports = {
                     <input type="hidden" name="startDay" value="${DayFormat}" />
                     <input type="submit" value="스케줄 보기"/>
                 </form>
+                <a href="/notice/list">공지 사항</a>
             </body>
         </html>
         `

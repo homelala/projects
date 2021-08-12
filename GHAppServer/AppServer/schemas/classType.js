@@ -36,13 +36,13 @@
 *                 type: object
 *                 properties:
 *                     classType_id:
-*                         type: int
+*                         type: integer
 *                         description: 수업 유형 id
 *                     classType_name:
 *                         type: string
 *                         description: 수업 유형 이름
 *                     coach_id:
-*                         type: int
+*                         type: integer
 *                         description: 코치 id
 *                     coach_name:
 *                         type: string
