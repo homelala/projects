@@ -48,7 +48,7 @@ module.exports = {
                     resolve(userInfo);
                 }
             })
-        })
+        })  
     },
     ApproveMember:function(gymId){
         return new Promise(function(resolve,rejects){

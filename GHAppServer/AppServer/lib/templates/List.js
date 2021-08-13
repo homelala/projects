@@ -395,7 +395,7 @@ module.exports = {
         for(var i = 0;i<noticeInfo.length;i++){
             list += `<tr>
                         <td>${noticeInfo[i].id}</td>
-                        <td>${noticeInfo[i].title}</td>
+                        <td><a href = "/notice/info?id=${noticeInfo[i].id}">${noticeInfo[i].title}</a></td>
                         <td>${noticeInfo[i].date}</td>
                     </tr>`
         }

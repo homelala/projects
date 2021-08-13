@@ -1,6 +1,7 @@
 const coachM = require('../../model/coach');
 const memberships = require('../../model/membership');
 const classTypes = require('../../model/classType');
+const auth = require('../auth/checkLogin');
 module.exports = {
     RegusterUser:function(){
         return `<!doctype html>
@@ -440,7 +441,7 @@ module.exports = {
             console.log(err);
         })
     },
-    RegisterCoach:function(){
+    registerNotice:function(){
         return `
         <!doctype html>
         <html>
@@ -454,6 +455,42 @@ module.exports = {
                     <textarea name = "description"></textarea>
                     <input type="submit" value="등록"/><br>
                 </form>
+            </body>
+        </html>
+        `
+    },
+    noticeUpdate:function(req,noticeInfo){
+        var gymInfo =auth.gymLogin(req);
+        var userInfo = auth.memberLogin(req);
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>회원 정보 보기</title>
+                ${gymInfo.location} ${userInfo.name}<br>
+                <a href="/login">지점 로그인</a>
+                <a href="/user/login">회원 로그인</a>
+            </head>
+            <h1>회원 정보</h1>
+            <body>
+                <a href="/register">지점 가입</a>
+                <a href="/user/register">회원 가입</a>
+                <a href="/coach/register">코치 등록</a>
+                <a href="/membership/register">회원권 등록</a>
+                <br>
+                <a href="/user/list/active">회원 보기</a>
+                <a href="/coach/list">코치 보기</a>
+                <a href="/membership/list">회원권 보기</a>
+                <br><br>
+                <br>
+                <form action ="/notice/update_process" method="post">
+                    <input type="hidden" name ="id" value="${noticeInfo[0].id}" />
+                    <input type = "text" name ="title" value = "${noticeInfo[0].title}"></input><br>
+                    <textarea name ="description">${noticeInfo[0].description}</textarea><br>
+                    첨부파일<input type="file" name="image" accept=".jpg, .jpeg, .png"/><br>
+                    <input type="submit" value="수정"/>
+                </form>
+                
             </body>
         </html>
         `
