@@ -1,10 +1,12 @@
 const express = require('express');
 const templateList = require('../lib/templates/List');
 const templateInfo = require('../lib/templates/info');
+const templateRegister = require('../lib/templates/Register');
 const members = require('../model/Members.js')
 const memberships = require('../model/membership');
 const expressSession = require('express-session');
 const memberClass = require('../model/memberClass');
+const classTypes = require('../model/classType');
 const coachs = require('../model/coach');
 var app = express();
 app.use(expressSession({
@@ -100,6 +102,12 @@ module.exports = {
         }).catch(function(err){
             res.send(err);
         })
+    },
+    templateBuyMembership:async function(req,res,next){
+        var membershipInfo = await memberships.AllMembership(req.session.gym);
+        var classTypeInfo = await classTypes.AllClass(req.session.gym.GYM_id);
+        var template = await templateRegister.buyMembership(req.query.id,membershipInfo,classTypeInfo);
+        res.send(template);
     },
     buyMembership:function(req,res){
         var member_id = req.query.id

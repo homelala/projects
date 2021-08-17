@@ -49,5 +49,16 @@ module.exports = {
                 }
             })
         })
+    },
+    updateCount:function(post,gymId){
+        return new Promise(function(resolve,rejects){
+            db.query('update gym set lockerCount = ?, lockerPrice = ? where GYM_id = ?',[post.lockerCount, post.lockerPrice, gymId],function(err,result){
+                if(err){
+                    rejects(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
     }
 }

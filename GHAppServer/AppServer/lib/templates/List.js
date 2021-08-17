@@ -423,5 +423,57 @@ module.exports = {
             </body>
         </html>
         `
+    },
+    lockerList:function(req, lockerInfo){
+        var gymInfo =auth.gymLogin(req);
+        var userInfo = auth.memberLogin(req);
+        var list = `<table>
+                        <tr>
+                            <th>번호</th>
+                            <th>대여 회원</th>
+                            <th>만료일</th>
+                            <th>전화번호</th>
+                        <tr>`;
+        for(var i = 0;i<lockerInfo.length;i++){
+            list += `<tr>
+                        <td>${lockerInfo[i].locker_id}</td>
+                        <td>${lockerInfo[i].member_name}</td>
+                        <td>${lockerInfo[i].endDate}</td>
+                        <td>${lockerInfo[i].phone}</td>`
+            if(lockerInfo[i].member_name == null){
+                list += `<td>
+                    <form action = "/locker/register" method="post">
+                        <input type = "hidden" name = "member_id" value ="${lockerInfo[i].member_id}"/>
+                        <input type = "hidden" name = "locker_id" value ="${lockerInfo[i].locker_id}"/>
+                        <input type="submit" value = "등록"/>
+                    </form>
+                </td>`
+            }
+            list+=`</tr>`
+        }
+        list+=`</table>`
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>HOME</title>
+                ${gymInfo.location} ${userInfo.name}<br>
+                <a href="/login">지점 로그인</a>
+                <a href="/user/login">회원 로그인</a>
+            </head>
+            <h1>공지 사항</h1>
+            <body>
+                <a href="/register">지점 가입</a>
+                <a href="/user/register">회원 가입</a>
+                <a href="/coach/register">코치 등록</a>
+                <br>
+                <a href="/user/list/active">회원 보기</a>
+                <a href="/coach/list">코치 보기</a>
+                <a href="/membership/list">회원권 보기</a>
+                <a href="/notice/register">공지사항 등록</a>
+                ${list}
+            </body>
+        </html>
+        `
     }
 }

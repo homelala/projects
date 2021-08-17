@@ -35,6 +35,6 @@ router.get('/info/history',userController.memberHistory)
 router.get('/info/update',userController.memberUpdate);
 router.post('/info/update_process',userController.memberUpdateProcess)
 //회원권 구매
-router.get('/membership',templateRegister.buyMembership);
+router.get('/membership',userController.templateBuyMembership);
 router.post('/membership/buy',userController.buyMembership)
 module.exports = router;

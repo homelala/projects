@@ -23,6 +23,8 @@ module.exports = {
                 <a href="/membership/register">회원권 등록</a>
                 <a href="/class/register">수업 등록</a>
                 <a href="/schedule/register">스케줄 추가</a>
+                <a href="/locker/count">락커 개수 등록</a>
+                <a href="/locker/list">락커 보기</a>
                 <br>
                 <a href="/user/list/active">회원 보기</a>
                 <a href="/coach/list">코치 보기</a>

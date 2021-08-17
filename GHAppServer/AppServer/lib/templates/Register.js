@@ -170,14 +170,13 @@ module.exports = {
         </html>
         `
     },
-    RegisterClass:function(req,res){
-        coachM.AllCoach(req.session.gym.GYM_id).then(function(result){
-            var temp = `<select name="coach">`;
-        for(var i =0;i<result.length;i++){
-            temp+=`<option value="${result[i].coach_id}">${result[i].name}</option>`
+    RegisterClass:function(req,coachInfo){
+        var temp = `<select name="coach">`;
+        for(var i =0;i<coachInfo.length;i++){
+            temp+=`<option value="${coachInfo[i].coach_id}">${coachInfo[i].name}</option>`
         }
         temp+=`</select>`;
-        var template =  `
+        return  `
         <!doctype html>
         <html>
             <head>
@@ -201,245 +200,94 @@ module.exports = {
             </body>
         </html>
         `
-        res.send(template);
-        }).catch(function(err){
-            console.log(err);
-        })
-    },buyMembership:function(req,res){
-        var member_id = req.query.id;
-        memberships.AllMembership(req.session.gym).then(function(membership){
-            classTypes.AllClass(req.session.gym.GYM_id).then(function(classType){
-                var membershipList = `<select name="membership_id">`;
-                for(var i =0;i<membership.length;i++){
-                    membershipList+=`<option value="${membership[i].membership_id}">${membership[i].name}</option>`
-                }
-                membershipList+=`</select>`;
-                var classTypeList = `<select name="classType_id">`;
-                for(var i =0;i<classType.length;i++){
-                    classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
-                }
-                classTypeList+=`</select>`;
-                var template =  `
-                <!doctype html>
-                <html>
-                    <head>
-                        <title>Register</title>
-                    </head>
-                    <h1>수업 등록</h1>
-                    <body>
-                        <form action="/user/membership/buy?id=${member_id}" method="post">
-                            회원권: ${membershipList}<br>
-                            시작일<input type="date" name="startDay"/><br>
-                            ${classTypeList} <br>
-                            최대 수강 횟수: <input type="text" name="MaxApply"><br>
-                            수강 횟수: <input type="text" name="countClass"><br>
-                            정상 금액: <input type="text" name="price"><br>
-                            결제 금액: <input type="text" name="payment"><br>
-                            카드: <input type="text" name="card"/><br>
-                            현금: <input type="text" name="cash"/><br> 
-                            미수금: <input type="text" name="accountReceivable"/><br> 
-                            결제일: <input type="date" name="paymentDay"/><br> 
-                            <input type="submit" value="구매"/><br>
-                        </form>
-                    </body>
-                </html>
-                `
-                res.send(template);
-            })
-        }).catch(function(err){
-            console.log(err);
-        })
-    },buyMembership:function(req,res){
-        var member_id = req.query.id;
-        memberships.AllMembership(req.session.gym).then(function(membership){
-            classTypes.AllClass(req.session.gym.GYM_id).then(function(classType){
-                var membershipList = `<select name="membership_id">`;
-                for(var i =0;i<membership.length;i++){
-                    membershipList+=`<option value="${membership[i].membership_id}">${membership[i].name}</option>`
-                }
-                membershipList+=`</select>`;
-                var classTypeList = `<select name="classType_id">`;
-                for(var i =0;i<classType.length;i++){
-                    classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
-                }
-                classTypeList+=`</select>`;
-                var template =  `
-                <!doctype html>
-                <html>
-                    <head>
-                        <title>Register</title>
-                    </head>
-                    <h1>수업 등록</h1>
-                    <body>
-                        <form action="/user/membership/buy?id=${member_id}" method="post">
-                            회원권: ${membershipList}<br>
-                            시작일<input type="date" name="startDay"/><br>
-                            ${classTypeList} <br>
-                            최대 수강 횟수: <input type="text" name="MaxApply"><br>
-                            수강 횟수: <input type="text" name="countClass"><br>
-                            정상 금액: <input type="text" name="price"><br>
-                            결제 금액: <input type="text" name="payment"><br>
-                            카드: <input type="text" name="card"/><br>
-                            현금: <input type="text" name="cash"/><br> 
-                            미수금: <input type="text" name="accountReceivable"/><br> 
-                            결제일: <input type="date" name="paymentDay"/><br> 
-                            <input type="submit" value="구매"/><br>
-                        </form>
-                    </body>
-                </html>
-                `
-                res.send(template);
-            })
-        }).catch(function(err){
-            console.log(err);
-        })
-    },buyMembership:function(req,res){
-        var member_id = req.query.id;
-        memberships.AllMembership(req.session.gym).then(function(membership){
-            classTypes.AllClass(req.session.gym.GYM_id).then(function(classType){
-                var membershipList = `<select name="membership_id">`;
-                for(var i =0;i<membership.length;i++){
-                    membershipList+=`<option value="${membership[i].membership_id}">${membership[i].name}</option>`
-                }
-                membershipList+=`</select>`;
-                var classTypeList = `<select name="classType_id">`;
-                for(var i =0;i<classType.length;i++){
-                    classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
-                }
-                classTypeList+=`</select>`;
-                var template =  `
-                <!doctype html>
-                <html>
-                    <head>
-                        <title>Register</title>
-                    </head>
-                    <h1>수업 등록</h1>
-                    <body>
-                        <form action="/user/membership/buy?id=${member_id}" method="post">
-                            회원권: ${membershipList}<br>
-                            시작일<input type="date" name="startDay"/><br>
-                            ${classTypeList} <br>
-                            최대 수강 횟수: <input type="text" name="MaxApply"><br>
-                            수강 횟수: <input type="text" name="countClass"><br>
-                            정상 금액: <input type="text" name="price"><br>
-                            결제 금액: <input type="text" name="payment"><br>
-                            카드: <input type="text" name="card"/><br>
-                            현금: <input type="text" name="cash"/><br> 
-                            미수금: <input type="text" name="accountReceivable"/><br> 
-                            결제일: <input type="date" name="paymentDay"/><br> 
-                            <input type="submit" value="구매"/><br>
-                        </form>
-                    </body>
-                </html>
-                `
-                res.send(template);
-            })
-        }).catch(function(err){
-            console.log(err);
-        })
-    },buyMembership:function(req,res){
-        var member_id = req.query.id;
-        memberships.AllMembership(req.session.gym).then(function(membership){
-            classTypes.AllClass(req.session.gym.GYM_id).then(function(classType){
-                var membershipList = `<select name="membership_id">`;
-                for(var i =0;i<membership.length;i++){
-                    membershipList+=`<option value="${membership[i].membership_id}">${membership[i].name}</option>`
-                }
-                membershipList+=`</select>`;
-                var classTypeList = `<select name="classType_id">`;
-                for(var i =0;i<classType.length;i++){
-                    classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
-                }
-                classTypeList+=`</select>`;
-                var template =  `
-                <!doctype html>
-                <html>
-                    <head>
-                        <title>Register</title>
-                    </head>
-                    <h1>수업 등록</h1>
-                    <body>
-                        <form action="/user/membership/buy?id=${member_id}" method="post">
-                            회원권: ${membershipList}<br>
-                            시작일<input type="date" name="startDay"/><br>
-                            종료일<input type="date" name="endDay"/><br>
-                            ${classTypeList} <br>
-                            최대 수강 횟수: <input type="text" name="MaxApply"><br>
-                            수강 횟수: <input type="text" name="countClass"><br>
-                            정상 금액: <input type="text" name="price"><br>
-                            결제 금액: <input type="text" name="payment"><br>
-                            카드: <input type="text" name="card"/><br>
-                            현금: <input type="text" name="cash"/><br> 
-                            미수금: <input type="text" name="accountReceivable"/><br> 
-                            결제일: <input type="date" name="paymentDay"/><br> 
-                            <input type="submit" value="구매"/><br>
-                        </form>
-                    </body>
-                </html>
-                `
-                res.send(template);
-            })
-        }).catch(function(err){
-            console.log(err);
-        })
-    },registerSchedule:function(req,res){
-        var member_id = req.query.id;
-        coachM.AllCoach(req.session.gym.GYM_id).then(function(coach){
-            classTypes.AllClass(req.session.gym.GYM_id).then(function(classType){
-                var coachList = `<select name="coach_id">`;
-                for(var i =0;i<coach.length;i++){
-                    coachList+=`<option value="${coach[i].coach_id}">${coach[i].name}</option>`
-                }
-                coachList+=`</select>`;
-                var classTypeList = `<select name="classType_id">`;
-                for(var i =0;i<classType.length;i++){
-                    classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
-                }
-                classTypeList+=`</select>`;
-                var template =  `
-                <!doctype html>
-                <html>
-                    <head>
-                        <title>Register</title>
-                    </head>
-                    <h1>스케줄 등록</h1>
-                    <body>
-                        <form action="/schedule/register" method="post">
-                            시작 일: <input type="date" name="startDay"/><br>
-                            시작 시간: <input type="time" name="startTime"><br>
-                            강사 이름: ${coachList}<br>
-                            강사 이름: ${coachList}<br>
-                            수업: ${classTypeList} <br>
-                            수업 시간: <input type="text" name="period"><br>
-                            차감 횟수: <input type="text" name="decrease"><br>
-                            예약 정원: <input type="text" name="reservePerson"><br>
-                            <select name = "cycle">
-                                <option value="undefined">한번 개설</option>
-                                <option value="1">매주 개설</option>
-                                <option value="2">2주마다 개설</option>
-                                <option value="3">3주마다 개설</option>
-                                <option value="4">4주마다 개설</option>
-                            </select><br>
-                            요일<br>
-                            일<input type="checkbox" name="day" value="0">
-                            월<input type="checkbox" name="day" value="1">
-                            화<input type="checkbox" name="day" value="2">
-                            수<input type="checkbox" name="day" value="3">
-                            목<input type="checkbox" name="day" value="4">
-                            금<input type="checkbox" name="day" value="5">
-                            토<input type="checkbox" name="day" value="6">
-                            <br>
-                            종료: <input type="date" name="endDay"><br>
-                            <input type="submit" value="구매"/><br>
-                        </form> 
-                    </body>
-                </html>
-                `
-                res.send(template);
-            })
-        }).catch(function(err){
-            console.log(err);
-        })
+    },buyMembership:function(member_id,membership,classType){
+        var membershipList = `<select name="membership_id">`;
+        for(var i =0;i<membership.length;i++){
+            membershipList+=`<option value="${membership[i].membership_id}">${membership[i].name}</option>`
+        }
+        membershipList+=`</select>`;
+        var classTypeList = `<select name="classType_id">`;
+        for(var i =0;i<classType.length;i++){
+            classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
+        }
+        classTypeList+=`</select>`;
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>Register</title>
+            </head>
+            <h1>수업 등록</h1>
+            <body>
+                <form action="/user/membership/buy?id=${member_id}" method="post">
+                    회원권: ${membershipList}<br>
+                    시작일<input type="date" name="startDay"/><br>
+                    종료일<input type="date" name="endDay"/><br>
+                    ${classTypeList} <br>
+                    최대 수강 횟수: <input type="text" name="MaxApply"><br>
+                    수강 횟수: <input type="text" name="countClass"><br>
+                    정상 금액: <input type="text" name="price"><br>
+                    결제 금액: <input type="text" name="payment"><br>
+                    카드: <input type="text" name="card"/><br>
+                    현금: <input type="text" name="cash"/><br> 
+                    미수금: <input type="text" name="accountReceivable"/><br> 
+                    결제일: <input type="date" name="paymentDay"/><br> 
+                    <input type="submit" value="구매"/><br>
+                </form>
+            </body>
+        </html>
+        `
+
+    },registerSchedule:function(coach,classType){
+        var coachList = `<select name="coach_id">`;
+        for(var i =0;i<coach.length;i++){
+            coachList+=`<option value="${coach[i].coach_id}">${coach[i].name}</option>`
+        }
+        coachList+=`</select>`;
+        var classTypeList = `<select name="classType_id">`;
+        for(var i =0;i<classType.length;i++){
+            classTypeList+=`<option value="${classType[i].classType_id}">${classType[i].classType_name}</option>`
+        }
+        classTypeList+=`</select>`;
+        return  `
+        <!doctype html>
+        <html>
+            <head>
+                <title>Register</title>
+            </head>
+            <h1>스케줄 등록</h1>
+            <body>
+                <form action="/schedule/register" method="post">
+                    시작 일: <input type="date" name="startDay"/><br>
+                    시작 시간: <input type="time" name="startTime"><br>
+                    강사 이름: ${coachList}<br>
+                    강사 이름: ${coachList}<br>
+                    수업: ${classTypeList} <br>
+                    수업 시간: <input type="text" name="period"><br>
+                    차감 횟수: <input type="text" name="decrease"><br>
+                    예약 정원: <input type="text" name="reservePerson"><br>
+                    <select name = "cycle">
+                        <option value="undefined">한번 개설</option>
+                        <option value="1">매주 개설</option>
+                        <option value="2">2주마다 개설</option>
+                        <option value="3">3주마다 개설</option>
+                        <option value="4">4주마다 개설</option>
+                    </select><br>
+                    요일<br>
+                    일<input type="checkbox" name="day" value="0">
+                    월<input type="checkbox" name="day" value="1">
+                    화<input type="checkbox" name="day" value="2">
+                    수<input type="checkbox" name="day" value="3">
+                    목<input type="checkbox" name="day" value="4">
+                    금<input type="checkbox" name="day" value="5">
+                    토<input type="checkbox" name="day" value="6">
+                    <br>
+                    종료: <input type="date" name="endDay"><br>
+                    <input type="submit" value="구매"/><br>
+                </form> 
+            </body>
+        </html>
+        `
     },
     registerNotice:function(){
         return `
@@ -495,4 +343,83 @@ module.exports = {
         </html>
         `
     },
+    RegisterLocker:function(req, memberInfo){
+        var gymInfo =auth.gymLogin(req);
+        var userInfo = auth.memberLogin(req);
+        var memberList = `<select name="member_id">`;
+        for(var i =0;i<memberInfo.length;i++){
+            memberList+=`<option value="${memberInfo[i].member_id}">${memberInfo[i].name}</option>`
+        }
+        memberList += `</select>`
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>회원 정보 보기</title>
+                ${gymInfo.location} ${userInfo.name}<br>
+                <a href="/login">지점 로그인</a>
+                <a href="/user/login">회원 로그인</a>
+            </head>
+            <h1>회원 정보</h1>
+            <body>
+                <a href="/register">지점 가입</a>
+                <a href="/user/register">회원 가입</a>
+                <a href="/coach/register">코치 등록</a>
+                <a href="/membership/register">회원권 등록</a>
+                <br>
+                <a href="/user/list/active">회원 보기</a>
+                <a href="/coach/list">코치 보기</a>
+                <a href="/membership/list">회원권 보기</a>
+                <br>
+                <form action ="/locker/register_process" method="post">
+                    <input type="hidden" value="${req.body.locker_id}" name = "locker_id"/>
+                    ${memberList}<br>
+                    대여 일수: <input type="text" name ="countDay"/><br>
+                    회원권 연동<input type = "checkbox" name ="membershipLink"></input><br>
+                    대여 시작일<input type="date" name="startDay"/><br>
+                    대여 종료일<input type="date" name="endDay"/><br>
+                    정상 금액: <input type="text" name ="price"/>
+                    결제 금액: <input type="text" name ="payment"/>
+                    결제일<input type="date" name="paymentDay"/><br>
+                    카드: <input type="text" name ="card"/>
+                    현금: <input type="text" name ="cash"/>
+                    미수금: <input type="text" name ="accountReceivable"/>
+                    <input type="submit" value="등록"/>
+                </form>
+            </body>
+        </html>
+        `
+    },
+    RegisterLockerCount:function(req,gymId){
+        var gymInfo =auth.gymLogin(req);
+        var userInfo = auth.memberLogin(req);
+        return `
+        <!doctype html>
+        <html>
+            <head>
+                <title>회원 정보 보기</title>
+                ${gymInfo.location} ${userInfo.name}<br>
+                <a href="/login">지점 로그인</a>
+                <a href="/user/login">회원 로그인</a>
+            </head>
+            <h1>회원 정보</h1>
+            <body>
+                <a href="/register">지점 가입</a>
+                <a href="/user/register">회원 가입</a>
+                <a href="/coach/register">코치 등록</a>
+                <a href="/membership/register">회원권 등록</a>
+                <br>
+                <a href="/user/list/active">회원 보기</a>
+                <a href="/coach/list">코치 보기</a>
+                <a href="/membership/list">회원권 보기</a>
+                <br>
+                <form action ="/locker/count_register" method="post">
+                    락커 개수: <input type="text" name ="lockerCount"/>
+                    락커 비용: <input type="text" name ="lockerPrice"/>
+                    <input type="submit" value="수정"/>
+                </form>
+            </body>
+        </html>
+        `
+    }
 }

@@ -1,9 +1,12 @@
 const express = require('express');
+const expressSession = require('express-session');
 const templateList = require('../lib/templates/List')
 const schedules = require('../model/schedule');
 const members = require('../model/Members');
+const coachs = require('../model/coach');
+const classTypes = require('../model//classType');
 const reserveBlocks = require('../model/reserveBlock');
-const expressSession = require('express-session');
+const templateRegister = require('../lib/templates/Register')
 const membership = require('../model/membership');
 const memberClass = require('../model/memberClass')
 const waitingMembers = require('../model/waitingMember');
@@ -48,6 +51,12 @@ async function insert(endDay,dayList,req,period,post){
     }
 }
 module.exports = {
+    templateRegisterSchedule:async function(req,res,next){
+        var coachInfo = await coachs.AllCoach(req.session.gym.GYM_id);
+        var classTypesInfo = await classTypes.AllClass(req.session.gym.GYM_id);
+        var template = await templateRegister.registerSchedule(coachInfo,classTypesInfo);
+        res.send(template);
+    },
     // 1. 검사하고 2. 카테고리 번호 받아와서 3. 삽입
     createSchedule:async function(req,res,next){
         var post = req.body;
