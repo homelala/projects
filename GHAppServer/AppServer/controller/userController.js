@@ -125,5 +125,20 @@ module.exports = {
         var memberWaitInfo = await memberClass.memberWaitHistory(member_id,req.session.gym.GYM_id);
         var template = await templateInfo.memberHistory(req, memberInfo, memberClassInfo, memberWaitInfo)
         res.send(template)
+    },
+    accountReceivableList:async function(req,res,next){
+        var memberList = await members.accountReceivableList(req.session.gym.GYM_id);
+        var sumAccountReceivable = await members.sumAccountReceivable(req.session.gym.GYM_id);
+        res.send({memberList,sumAccountReceivable});
+    },
+    expireExpectList:async function(req,res,next){
+        var memberList =  await members.expireExpectList(req.session.gym.GYM_id);
+        res.send(memberList);
+    },
+    todayReserveList:async function(req,res,next){
+        var sumPayment = await members.sumPayment(req.session.gym.GYM_id);
+        var activeMember = await members.activeMember(req.body, req.session.gym.GYM_id);
+        var todayMemberList = await members.todayReserveList(req.session.gym.GYM_id);
+        res.send({sumPayment,activeMember,todayMemberList});
     }
 }

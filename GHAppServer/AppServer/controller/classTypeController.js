@@ -25,7 +25,6 @@ module.exports = {
     },
     classTypeList:async function(req,res,next){
         var coach_ClassInfo = await coachClassType.selectAll(req.session.gym.GYM_id)
-        console.log(coach_ClassInfo);
         var template = await templateList.classTypeList(req,coach_ClassInfo);
         res.send(template);
     },

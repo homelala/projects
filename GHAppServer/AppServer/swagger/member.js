@@ -192,5 +192,50 @@
 *               $ref: '#/components/schemas/member_membershipInfo'   
 *       responses:
 *         "200":
-*           description: 회원권 구매 완료               
+*           description: 회원권 구매 완료          
+*   /user/accountReceivableList:
+*     get:
+*       summary: 미수금 목록 보기 
+*       tags: [Member]
+*       responses:
+*         "200":
+*           description: "미수금 목록 보기"
+*           content:
+*             application/json:
+*               schema:
+*                 type: object
+*                 properties:
+*                   memberList:
+*                     $ref: '#/components/schemas/accountReceivableInfo'   
+*                   sumAccountReceivable:
+*                     $ref: '#/components/schemas/sumAccountReceivable'   
+*   /user/expireExpectList:
+*     get:
+*       summary: 만료 예정 회원 보기 
+*       tags: [Member]
+*       responses:
+*         "200":
+*           description: 만료 예정 회원 보기 
+*           content:
+*             application/json:
+*               schema:
+*                 $ref: '#/components/schemas/expireExpectList'  
+*   /user/todayReserveList:
+*     get:
+*       summary: 예약 현황 보기 
+*       tags: [Member]
+*       responses:
+*         "200":
+*           description: 예약 현황 보기 
+*           content:
+*             application/json:
+*               schema:
+*                 type: object
+*                 properties:
+*                   sumPayment:
+*                     $ref: '#/components/schemas/accountReceivableInfo'   
+*                   activeMember:
+*                     $ref: '#/components/schemas/listMember'
+*                   todayMemberList:
+*                     $ref: '#/components/schemas/todayMemberList'
 */

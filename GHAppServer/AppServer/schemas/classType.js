@@ -3,6 +3,7 @@
 *     components:
 *         schemas:
 *             classTypeInfo:
+*                 summary: 수업 유형 등록 정보
 *                 type: object
 *                 properties:
 *                     name:
@@ -33,6 +34,7 @@
 *                         type: boolean
 *                         description: 수강 제한 여부
 *             AllClassType_CoachInfo:
+*                 summary: 수업 목록 보는 정보
 *                 type: object
 *                 properties:
 *                     classType_id:
@@ -41,13 +43,28 @@
 *                     classType_name:
 *                         type: string
 *                         description: 수업 유형 이름
-*                     coach_id:
-*                         type: integer
-*                         description: 코치 id
 *                     coach_name:
 *                         type: string
 *                         description: 코치 이름
 *                     time:
 *                         type: time
 *                         description: 수업 시간
+*                     category:
+*                         type: string
+*                         description: 수업 구분
+*                     type:
+*                         type: boolean
+*                         description: 수업 유형(온라인/오프라인)
+*                     coach_id:
+*                         type: integer
+*                         description: 수업을 맡은 코치 id
+*                     decrease:
+*                         type: integer
+*                         description: 차감 횟수
+*                     color:
+*                         type: string
+*                         description: 수업 색상
+*                     limitClass:
+*                         type: boolean
+*                         description: 수강 제한 여부
 */

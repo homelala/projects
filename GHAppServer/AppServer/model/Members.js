@@ -1,4 +1,6 @@
 const db = require('../lib/mysql');
+const { registerSchedule } = require('../lib/templates/Register');
+const gym = require('./gym');
 
 module.exports = {
     insertMember:function(post,session){
@@ -27,20 +29,37 @@ module.exports = {
     },
     memberList:function(gymId){
         return new Promise(function(resolve,rejects){
-            db.query('select * from member a join member_membership b on a.member_id = b.member_id where b.endDay >= now() and b.maxCountClass != b.countClass and a.GYM_id = ? group by a.member_id', [gymId], function(err,userInfo){
-                if(err){
-                    rejects(err);
-                }else{
-                    resolve(userInfo);
-                }
+            db.query(`select a.member_id member_id, a.male male, a.birth birth, a.description description, a.name member_name, 
+                    max(b.startDay) recentAttendDay, a.phone phone, e.startDay, e.endDay, f.name membership_name, g.name classType_name, e.countClass countClass
+                    from member a left join (select member_id, startDay from member_class c join class d 
+                    on c.class_id = d.class_id where c.attend != 0 and c.attend != 3) b 
+                    on a.member_id = b.member_id
+                    join member_membership e on a.member_id = e.member_id
+                    join membership f on e.membership_id = f.membership_id
+                    join classType g on e.classType_id = g.classType_id
+                    where a.GYM_id = 9 and a.approve = 0 and e.endDay >= now() and e.maxCountClass != e.countClass 
+                    group by member_id `, [gymId], function(err,userInfo){
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(userInfo);
+                    }
             })
         })
     },
     memberListExpire:function(gymId){
         return new Promise(function(resolve,rejects){
-            db.query(`select * from member c where c.member_id not in 
-            (select a.member_id id from member a join member_membership b on a.member_id = b.member_id where b.endDay >= now() and b.maxCountClass != b.countClass ) 
-            and GYM_id = ? and approve = 0
+            db.query(`select a.member_id member_id, a.male male, a.birth birth, a.description description, a.name member_name, 
+                max(b.startDay) recentAttendDay, a.phone phone, e.startDay, e.endDay, f.name membership_name, g.name classType_name 
+                from member a left join (select member_id, startDay from member_class c join class d 
+                on c.class_id = d.class_id where c.attend != 0 and c.attend != 3) b 
+                on a.member_id = b.member_id
+                left join member_membership e on a.member_id = e.member_id
+                left join membership f on e.membership_id = f.membership_id
+                left join classType g on e.classType_id = g.classType_id
+                where a.member_id not in 
+                (select a.member_id id from member a join member_membership b on a.member_id = b.member_id where b.endDay >= now() and b.maxCountClass != b.countClass) 
+                and a.GYM_id = ? and a.approve = 0 group by member_id
             `, [gymId], function(err,userInfo){
                 if(err){
                     rejects(err);
@@ -95,5 +114,113 @@ module.exports = {
             })
         })
     },
-    
+    accountReceivableList:function(gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select distinct a.member_id member_id, a.name member_name, ifnull(b.accountReceivable,0)+ifnull(c.accountReceivable,0) accountReceivable,
+                a.phone phone, d.recentAttendDay recentAttendDay from member a 
+                join member_membership b on a.member_id = b.member_id 
+                left join member_locker c on a.member_id = c.member_id
+                join (select member_id, max(startDay) recentAttendDay from member_class c join class d 
+                on c.class_id = d.class_id where c.attend != 0 and c.attend != 3 group by member_id) d
+                on a.member_id = d.member_id
+                where (b.accountReceivable != 0 or c.accountReceivable !=0) and a.GYM_id = ?`,[gymId],function(err,result){
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }
+                })
+        })
+    },
+    sumAccountReceivable:function(gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select sum(ifnull(c.accountReceivable,0)+ifnull(b.accountReceivable,0)) sumAccountReceivable from member a
+                join member_membership b on a.member_id = b.member_id 
+                left join member_locker c on a.member_id = c.member_id where a.GYM_id = 9`, [gymId],function(err,result){
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }
+                })
+        })
+    },
+    expireExpectList:function(gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.member_id member_id, a.male male, a.birth birth, a.description description, a.name member_name, 
+            max(b.startDay) recentAttendDay, a.phone phone, e.startDay, e.endDay, f.name membership_name, g.name classType_name 
+            from member a left join (select member_id, startDay from member_class c join class d 
+            on c.class_id = d.class_id where c.attend != 0 and c.attend != 3) b 
+            on a.member_id = b.member_id
+            left join member_membership e on a.member_id = e.member_id
+            left join membership f on e.membership_id = f.membership_id
+            left join classType g on e.classType_id = g.classType_id
+            where a.member_id not in 
+            (select a.member_id id from member a join member_membership b on a.member_id = b.member_id where b.endDay >= date_add(now(), interval 7 day) and b.maxCountClass != b.countClass) 
+            and a.GYM_id = ? and a.approve = 0 group by member_id
+            `,[gymId],function(err,result){
+                if(err){
+                    rejects(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
+    },
+    todayReserveList:function(gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.member_id member_id, a.name member_name, a.male male, a.birth birth, a.description description,
+                b.attend attend, c.startTime startTime, date_add(c.startTime, interval c.period minute) endTime, d.name classType_name, 
+                e.endDay endDay, max(f.startDay) recentAttendDay from member a
+                right join member_class b on a.member_id = b.member_id
+                left join class c on b.class_id = c.class_id
+                join classType d on c.classType_id = d.classType_id
+                left join member_membership e on b.member_membership_id = e.id
+                left join (select member_id, startDay, attend from member_class c 
+                left join class d on c.class_id = d.class_id 
+                where c.attend != 0 and c.attend != 3) f
+                on a.member_id = f.member_id
+                where a.GYM_id = ? and c.startDay = date_format(now(),'%y-%m-%d')
+                group by a.member_id `,[gymId],function(err,result){
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }
+                })
+        })
+    },
+    sumPayment:function(gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.GYM_id, sum(a.payment)+b.payment sumPayment from member_membership a
+                join (select GYM_id, sum(payment) payment from member_locker 
+                where GYM_id = ? and month(paymentDay) = month(now())) b on b.GYM_id = a.GYM_id
+                where a.GYM_id = ? and month(a.paymentDay) = month(now())`,[gymId,gymId],function(err,result){
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }
+            })
+        })
+    },
+    activeMember:function(post, gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.member_id member_id, a.male male, a.birth birth, a.description description, a.name member_name, 
+            max(b.startDay) recentAttendDay, a.phone phone, e.startDay, e.endDay, f.name membership_name, g.name classType_name, e.countClass countClass
+            from member a left join (select member_id, startDay from member_class c join class d 
+            on c.class_id = d.class_id where c.attend != 0 and c.attend != 3) b 
+            on a.member_id = b.member_id
+            join member_membership e on a.member_id = e.member_id
+            join membership f on e.membership_id = f.membership_id
+            join classType g on e.classType_id = g.classType_id
+            where a.GYM_id = ? and a.approve = 0 and e.endDay >= date_format(?,'%y-%m-%d') and e.maxCountClass != e.countClass`,[gymId,post.date],function(err,result){
+                if(err){
+                    rejects(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
+    }
 }

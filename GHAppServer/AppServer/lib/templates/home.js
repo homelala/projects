@@ -35,6 +35,9 @@ module.exports = {
                     <input type="submit" value="스케줄 보기"/>
                 </form>
                 <a href="/notice/list">공지 사항</a>
+                <a href="/user/todayReserveList">예약 회원 현황</a>
+                <a href="/user/expireExpectList">만료 예정 회원 현황</a>
+                <a href="/user/accountReceivableList">미수금 현황</a>
             </body>
         </html>
         `

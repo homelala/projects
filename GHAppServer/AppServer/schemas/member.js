@@ -32,75 +32,42 @@
 *             listMember:
 *                 type: object
 *                 properties:
-*                     GYM_id:
-*                         type: integer
-*                         description: 회원 소속 지점 id
 *                     member_id:
 *                         type: integer
 *                         description: 회원 id
-*                     name:
+*                     member_name:
 *                         type: string
 *                         description: 회원 이름
-*                     image:
+*                     birth:
 *                         type: string
-*                         description: 회원 프로필 이미지
-*                     email:
+*                         description: 회원 생년월일
+*                     description:
 *                         type: string
-*                         description: 회원 이메일
-*                     passwd:
-*                         type: string
-*                         description: 회원 비밀번호
+*                         description: 회원 메모
 *                     male:
 *                         type: string
 *                         description: 성별
-*                     approve:
-*                         type: boolean
-*                         description: 회원 승인 여부
-*                     rentSportwear:
-*                         type: boolean
-*                         description: 운동복 대여 여부
-*                     pointeger:
-*                         type: integer
-*                         description: 회원 보유 마일리지
-*                     membership_id:
-*                         type: integer
-*                         description: 회원권 id
-*                     classType_id:
-*                         type: integer
-*                         description: 수업 유형 id
+*                     recentAttendDay:
+*                         type: date
+*                         description: 최근 출석일
+*                     phone:
+*                         type: string
+*                         description: 핸드폰 번호
 *                     startDay:
 *                         type: date
 *                         description: 회원권 시작일
 *                     endDay:
 *                         type: date
 *                         description: 회원권 종료일
-*                     maxCountClass:
+*                     membership_name:
+*                         type: string
+*                         description: 회원권 이름
+*                     classType_name:
+*                         type: string
+*                         description: 수업 유형 이름
+*                     countClass:
 *                         type: integer
-*                         description: 회원권 최대 사용 가능 횟수
-*                     DayAttend:
-*                         type: integer
-*                         description: 당일 등록 횟수
-*                     weekAttend:
-*                         type: integer
-*                         description: 주간 등록 횟수
-*                     paymentDay:
-*                         type: date
-*                         description: 결제일
-*                     card:
-*                         type: integer
-*                         description: 카드 결제 금약
-*                     cash:
-*                         type: integer
-*                         description: 현금 결제 금액
-*                     accountReceivable:
-*                         type: integer
-*                         description: 미수금
-*                     holdingStartDay::
-*                         type: date
-*                         description: 홀딩 시작일
-*                     holdingEndDay:
-*                         type: date
-*                         description: 홀딩 종료일
+*                         description: 수강 횟수
 *             detailMember:
 *                 type: object
 *                 properties:
@@ -188,5 +155,100 @@
 *                     decrease:
 *                         type: integer
 *                         description: 차감 횟수
-*                     
+*             accountReceivableInfo:
+*                 type: object
+*                 properties:
+*                     member_id:
+*                         type: string
+*                         description: 회원 id
+*                     member_name:
+*                         type: string
+*                         description: 회원 이름
+*                     accountReceivable:
+*                         type: integer
+*                         description: 미수금
+*                     phone:
+*                         type: string
+*                         description: 전화번호
+*                     recentAttendDay:
+*                         type: date
+*                         description: 최근 출석 날짜
+*             sumAccountReceivable:
+*                 type: object
+*                 properties:
+*                     sumAccountReceivable:
+*                         type: integer
+*                         description: 미수금 총액
+*             expireExpectList:
+*                 type: object
+*                 properties:
+*                     member_id:
+*                         type: integer
+*                         description: 회원 id
+*                     male:
+*                         type: boolean
+*                         description: 성별
+*                     birth:
+*                         type: date
+*                         description: 생년월일
+*                     description:
+*                         type: string
+*                         description: 회원 메모
+*                     name:
+*                         type: string
+*                         description: 회원 이름
+*                     recentAttendDay:
+*                         type: date
+*                         description: 최근 출석 날짜
+*                     phone:
+*                         type: string
+*                         description: 전화번호
+*                     startDay:
+*                         type: date
+*                         description: 회원권 시작일
+*                     endDay:
+*                         type: date
+*                         description: 회원권 종료일
+*                     membership_name:
+*                         type: string
+*                         description: 회원권 이름
+*                     classType_name:
+*                         type: string
+*                         description: 수업 유형 이름
+*             todayMemberList:
+*                 type: object
+*                 properties:
+*                     member_id:
+*                         type: integer
+*                         description: 회원 id
+*                     male:
+*                         type: boolean
+*                         description: 성별
+*                     birth:
+*                         type: date
+*                         description: 생년월일
+*                     description:
+*                         type: string
+*                         description: 회원 메모
+*                     name:
+*                         type: string
+*                         description: 회원 이름
+*                     recentAttendDay:
+*                         type: date
+*                         description: 최근 출석 날짜
+*                     startTime:
+*                         type: time
+*                         description: 수업 시작 시간
+*                     endTime:
+*                         type: time
+*                         description: 수업 종료 시간
+*                     endDay:
+*                         type: date
+*                         description: 회원권 종료일
+*                     attend:
+*                         type: integer
+*                         description: 상태
+*                     classType_name:
+*                         type: string
+*                         description: 수업 유형 이름
 */

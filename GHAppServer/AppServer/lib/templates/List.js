@@ -7,16 +7,24 @@ module.exports = {
         var list = `<table>
                         <tr>
                             <th>이름</th>
-                            <th>성별</th>
-                            <th>생년월일</th>
                             <th>핸드폰 번호</th>
+                            <th>생년 월일</th>
+                            <th>최근 회원권</th>
+                            <th>회원권 시작일</th>
+                            <th>회원권 종료일</th>
+                            <th>종류</th>
+                            <th>최근 출석</th>
                         <tr>`;
         for(var i = 0;i<result.length;i++){
             list += `<tr>
-                        <td>${result[i].name}</td>
-                        <td>${result[i].male}</td>
-                        <td>${result[i].birth}</td>
+                        <td>${result[i].member_name}</td>
                         <td>${result[i].phone}</td>
+                        <td>${result[i].birth}</td>
+                        <td>${result[i].membership_name}</td>
+                        <td>${result[i].startDay}</td>
+                        <td>${result[i].endDay}</td>
+                        <td>${result[i].classType_name}</td>
+                        <td>${result[i].recentAttendDay}</td>
                         <td><a href="/user/info?id=${result[i].member_id}">자세히 보기</a></td>
                     </tr>`
         }
@@ -257,7 +265,7 @@ module.exports = {
             coachTemp+=`</td>`;
             var userTemp = `<select name = "member_id">`
             for(var r = 0;r<userList.length;r++){
-                userTemp += `<option value = "${userList[r].member_id}">${userList[r].name}</option>`
+                userTemp += `<option value = "${userList[r].member_id}">${userList[r].member_name}</option>`
             }
             userTemp+='</select>'
             list += `<tr>
