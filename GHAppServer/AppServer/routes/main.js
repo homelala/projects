@@ -24,7 +24,7 @@ router.get('/setting',function(req,res){
     var temp = templateRegister.SettingGYM();
     res.send(temp);
 })
-
+router.post('/statistics',GymController.showStatistics)
 router.post('/register_process', GymController.createGYM);
 router.post('/login_process', GymController.LoginGYM);
 router.post('/setting_process',gymController.updateGymSetting);

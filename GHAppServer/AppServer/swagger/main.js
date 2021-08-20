@@ -40,4 +40,36 @@
 *       responses:
 *         "200":
 *           description: 지점 로그인 완료
+*   /statistics:
+*     post:
+*       summary: 지점 통계 보기
+*       tags: [GYM]
+*       requestBody:
+*         required: true
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/searchDate'
+*       responses:
+*         "200":
+*           description: 지점 통계 보기
+*           content:
+*             application/json:
+*               schema:
+*                 type: object
+*                 properties:
+*                   SumPaymentInfo:
+*                     $ref: '#/components/schemas/SumPaymentInfo'   
+*                   AgainstPaymentInfo:
+*                     $ref: '#/components/schemas/AgainstPaymentInfo'
+*                   newPaymentInfo:
+*                     $ref: '#/components/schemas/newPaymentInfo'
+*                   membershipPaymentInfo:
+*                     $ref: '#/components/schemas/membershipPaymentInfo'   
+*                   coachStatisticsInfo:
+*                     $ref: '#/components/schemas/coachStatisticsInfo'
+*                   monthMembershipPayment:
+*                     $ref: '#/components/schemas/monthMembershipPayment'
+*                   monthLockerPayment:
+*                     $ref: '#/components/schemas/monthLockerPayment'
 */

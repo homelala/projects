@@ -251,4 +251,10 @@
 *                     classType_name:
 *                         type: string
 *                         description: 수업 유형 이름
+*             DateReserveList:
+*                 type: object
+*                 properties:
+*                     date:
+*                         type: date
+*                         description: 예약 회원 리스트 검색 날짜
 */

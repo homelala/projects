@@ -221,9 +221,15 @@
 *               schema:
 *                 $ref: '#/components/schemas/expireExpectList'  
 *   /user/todayReserveList:
-*     get:
+*     post:
 *       summary: 예약 현황 보기 
 *       tags: [Member]
+*       requestBody:
+*         required: true
+*         content:
+*           application/json:
+*             schema:
+*               $ref: '#/components/schemas/DateReserveList'   
 *       responses:
 *         "200":
 *           description: 예약 현황 보기 

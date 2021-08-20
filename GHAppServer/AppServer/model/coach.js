@@ -37,5 +37,21 @@ module.exports = {
                 }
             })
         })
+    },
+    coachInfo:function(post,gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.name coach_name, d.name classType_name, count(c.class_id) countClass from coach a 
+                join coach_class b on a.coach_id = b.coach_id
+                join class c on b.class_id = c.class_id
+                join classType d on c.classType_id = d.classType_id
+                where a.GYM_id = ? and month(startDay) = month(?)
+                group by d.classType_id, b.coach_id`,[gymId,post.date],function(err,result){
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }
+                })
+        })
     }
 }

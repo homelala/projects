@@ -136,9 +136,9 @@ module.exports = {
         res.send(memberList);
     },
     todayReserveList:async function(req,res,next){
-        var sumPayment = await members.sumPayment(req.session.gym.GYM_id);
+        var sumPayment = await members.sumPayment(req.body,req.session.gym.GYM_id);
         var activeMember = await members.activeMember(req.body, req.session.gym.GYM_id);
-        var todayMemberList = await members.todayReserveList(req.session.gym.GYM_id);
+        var todayMemberList = await members.todayReserveList(req.body, req.session.gym.GYM_id);
         res.send({sumPayment,activeMember,todayMemberList});
     }
 }

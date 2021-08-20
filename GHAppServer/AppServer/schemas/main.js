@@ -97,6 +97,122 @@
 *                         description: 지점 로그인 이메일
 *                     passwd:
 *                         type: string
-*                         description: 지점 로그인 비밀번호
-*                          
+*                         description: 지점 로그인 비밀번호                     
+*             searchDate:
+*                 type: object
+*                 properties:
+*                     date:
+*                         type: date
+*                         description: 통계 날짜
+*             SumPaymentInfo:
+*                 type: object
+*                 properties:
+*                     GYM_id:
+*                         type: integer
+*                         description: 지점 id
+*                     membershipPayment:
+*                         type: integer
+*                         description: 회원권 총 매출
+*                     lockerPayment:
+*                         type: integer
+*                         description: 락커 총 매출
+*                     sumPayment:
+*                         type: integer
+*                         description: 락커 회원권 총 합산 매출
+*             AgainstPaymentInfo:
+*                 type: object
+*                 properties:
+*                     GYM_id:
+*                         type: integer
+*                         description: 지점 id
+*                     membershipPayment:
+*                         type: integer
+*                         description: 재등록 회원권 총 매출
+*             newPaymentInfo:
+*                 type: object
+*                 properties:
+*                     GYM_id:
+*                         type: integer
+*                         description: 지점 id
+*                     membershipPayment:
+*                         type: integer
+*                         description: 신규 회원권 총 매출
+*             membershipPaymentInfo:
+*                 type: object
+*                 properties:
+*                     membership_id:
+*                         type: integer
+*                         description: 회원권 id
+*                     membershipCount:
+*                         type: integer
+*                         description: 회원권 별 구매 횟수
+*                     membership_namefrom:
+*                         type: string
+*                         description: 회원권 이름
+*             coachStatisticsInfo:
+*                 type: object
+*                 properties:
+*                     coach_name:
+*                         type: string
+*                         description: 코치 이름
+*                     classType_name:
+*                         type: string
+*                         description: 수업 유형 이름
+*                     countClass:
+*                         type: integer
+*                         description: 코치별 수업 횟수
+*             monthMembershipPayment:
+*                 type: object
+*                 properties:
+*                     GYM_id:
+*                         type: integer
+*                         description: 지점 id
+*                     member_name:
+*                         type: string
+*                         description: 회원 이름
+*                     membership_name:
+*                         type: string
+*                         description: 회원권 이름
+*                     registerDate:
+*                         type: date
+*                         description: 등록 날짜(신규/재등록 구분)
+*                     payment:
+*                         type: integer
+*                         description: 결제 금액
+*                     card:
+*                         type: integer
+*                         description: 카드
+*                     cash:
+*                         type: integer
+*                         description: 현금
+*                     accountReceivable:
+*                         type: integer
+*                         description: 미수금
+*                     paymentDay:
+*                         type: date
+*                         description: 결제일
+*             monthLockerPayment:
+*                 type: object
+*                 properties:
+*                     GYM_id:
+*                         type: integer
+*                         description: 지점 id
+*                     member_name:
+*                         type: string
+*                         description: 회원 이름
+*                     payment:
+*                         type: integer
+*                         description: 결제 금액
+*                     card:
+*                         type: integer
+*                         description: 카드
+*                     cash:
+*                         type: integer
+*                         description: 현금
+*                     accountReceivable:
+*                         type: integer
+*                         description: 미수금
+*                     paymentDay:
+*                         type: date
+*                         description: 결제일
 */

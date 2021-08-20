@@ -111,5 +111,35 @@ module.exports = {
                 }
             })
         })
+    },
+    membershipPaymentInfo:function(post, gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.membership_id, count(a.member_id) membershipCount, b.name membership_namefrom member_membership a 
+                join membership b on a.membership_id = b.membership_id 
+                where a.GYM_id = ? and month(a.registerDate) = month(?)
+                group by a.membership_id`,[gymId,post.date],function(err,result){
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }
+                })
+        })
+    },
+    monthMembershipPayment:function(post,gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.GYM_id, b.name member_name, c.name membership_name, b.registerDate registerDate,
+                a.payment payment, a.card card, a.cash cash, a.accountReceivable accountReceivable, a.paymentDay from member_membership a
+                join member b on a.member_id = b.member_id
+                join membership c on a.membership_id = c.membership_id
+                where a.GYM_id = ? and month(a.paymentDay) =  month(?) and month(b.registerDate) != month(?)`,[gymId, post.date, post.date],
+                function(err,result){
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }
+                })
+        })
     }
 }

@@ -167,7 +167,7 @@ module.exports = {
             })
         })
     },
-    todayReserveList:function(gymId){
+    todayReserveList:function(post,gymId){
         return new Promise(function(resolve,rejects){
             db.query(`select a.member_id member_id, a.name member_name, a.male male, a.birth birth, a.description description,
                 b.attend attend, c.startTime startTime, date_add(c.startTime, interval c.period minute) endTime, d.name classType_name, 
@@ -180,8 +180,8 @@ module.exports = {
                 left join class d on c.class_id = d.class_id 
                 where c.attend != 0 and c.attend != 3) f
                 on a.member_id = f.member_id
-                where a.GYM_id = ? and c.startDay = date_format(now(),'%y-%m-%d')
-                group by a.member_id `,[gymId],function(err,result){
+                where a.GYM_id = ? and c.startDay = date_format(?,'%y-%m-%d')
+                group by a.member_id `,[gymId,post.date],function(err,result){
                     if(err){
                         rejects(err);
                     }else{
@@ -190,12 +190,13 @@ module.exports = {
                 })
         })
     },
-    sumPayment:function(gymId){
+    sumPayment:function(post,gymId){
         return new Promise(function(resolve,rejects){
-            db.query(`select a.GYM_id, sum(a.payment)+b.payment sumPayment from member_membership a
+            db.query(`select a.GYM_id, sum(a.payment) membershipPayment, b.payment lockerPayment, 
+                sum(a.payment)+b.payment sumPayment from member_membership a
                 join (select GYM_id, sum(payment) payment from member_locker 
                 where GYM_id = ? and month(paymentDay) = month(now())) b on b.GYM_id = a.GYM_id
-                where a.GYM_id = ? and month(a.paymentDay) = month(now())`,[gymId,gymId],function(err,result){
+                where a.GYM_id = ? and month(a.paymentDay) = month(?)`,[gymId,gymId,post.date],function(err,result){
                     if(err){
                         rejects(err);
                     }else{
@@ -222,5 +223,33 @@ module.exports = {
                 }
             })
         })
-    }
+    },
+    AgainstPaymentInfo:function(post,gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.GYM_id, ifnull(sum(a.payment),0) membershipPayment from member_membership a
+                join member b on a.member_id = b.member_id
+                where a.GYM_id = ? and month(a.paymentDay) = month(?) and month(b.registerDate) = month(?)`,[gymId,post.date,post.date],
+                function(err,result){
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }
+                })
+        })
+    },
+    newPaymentInfo:function(post,gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.GYM_id, ifnull(sum(a.payment),0) membershipPayment from member_membership a
+                join member b on a.member_id = b.member_id
+                where a.GYM_id = ? and month(a.paymentDay) = month(?) and month(b.registerDate) != month(?)`,[gymId,post.date,post.date],
+                function(err,result){
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(result);
+                    }
+                })
+        })
+    },
 }

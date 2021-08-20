@@ -38,5 +38,18 @@ module.exports = {
                 }
             })
         })
+    },
+    monthLockerPayment:function(post,gymId){
+        return new Promise(function(resolve,rejects){
+            db.query(`select a.GYM_id, b.name member_name, a.payment payment, a.card card, a.cash cash, a.accountReceivable accountReceivable, a.paymentDay from member_locker a
+            join member b on a.member_id = b.member_id
+            where a.GYM_id = ? and month(a.paymentDay) =  month(?)`,[gymId, post.date],function(err,result){
+                if(err){
+                    rejects(err);
+                }else{
+                    resolve(result);
+                }
+            })
+        })
     }
 }

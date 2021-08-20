@@ -1,5 +1,9 @@
 const express = require('express');
 const gyms = require('../model/gym.js')
+const members = require('../model/Members.js')
+const memberships = require('../model/membership.js')
+const coachs = require('../model/coach.js')
+const lockers = require('../model/locker.js')
 const expressSession = require('express-session');
 var app = express();
 app.use(expressSession({
@@ -39,5 +43,15 @@ module.exports = {
         }).catch(function(err){
             res.send(err);
         })
+    },
+    showStatistics:async function(req,res,next){
+        var SumPaymentInfo = members.sumPayment(req.session.gym.GYM_id);
+        var AgainstPaymentInfo = members.AgainstPaymentInfo(req.body, req.session.gym.GYM_id);
+        var newPaymentInfo = members.newPaymentInfo(req.body, req.session.gym.GYM_id);
+        var membershipPaymentInfo = memberships.membershipPaymentInfo(req.body, req.session.gym.GYM_id);
+        var coachInfo = coachs.coachInfo(req.body,req.session.gym.GYM_id);
+        var monthMembershipPayment = memberships.monthMembershipPayment(req.body, req.session.gym.GYM_id);
+        var monthLockerPayment = lockers.monthLockerPayment(req.body, req.session.gym.GYM_id);
+        res.send({SumPaymentInfo,AgainstPaymentInfo,newPaymentInfo,membershipPaymentInfo,coachInfo,monthMembershipPayment,monthLockerPayment});
     }
 }
