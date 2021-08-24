@@ -43,10 +43,10 @@ module.exports = {
     DayScheduleList:function(post,gymId){
         return new Promise(function(resolve,rejects){
             db.query(`
-            select distinct a.class_id id, d.name classType_name, d.classType_id classType_id, a.startDay startDay, a.totalReservation total, a.startTime startTime, Date_add(a.startTime, Interval a.period minute) period, a.reserveNumber
+            select distinct a.class_id id, d.name classType_name, d.classType_id classType_id, a.startDay startDay, a.totalReservation total, a.startTime startTime, Date_add(a.startTime, Interval a.period minute) period, a.reserveNumber reserveNumber
             from class a 
             join coach_class b on a.class_id = b.class_id 
-            join classtype d on a.classType_id = d.classType_id where a.GYM_id = ? and a.startDay = ?
+            join classType d on a.classType_id = d.classType_id where a.GYM_id = ? and a.startDay = ?
             `,[gymId, post.startDay],function(err,result){
                 if(err){
                     console.log(err);
@@ -63,7 +63,7 @@ module.exports = {
             select distinct a.class_id id, d.name classType_name, d.classType_id classType_id, a.startDay startDay, a.totalReservation total, a.startTime startTime, Date_add(a.startTime, Interval a.period minute) period, a.reserveNumber
             from class a 
             join coach_class b on a.class_id = b.class_id 
-            join classtype d on a.classType_id = d.classType_id where a.GYM_id = ? and (a.startDay > Last_DAY(now()- interval 1 month) and a.startDay <= Last_Day(now()))
+            join classType d on a.classType_id = d.classType_id where a.GYM_id = ? and (a.startDay > Last_DAY(now()- interval 1 month) and a.startDay <= Last_Day(now()))
             `,[gymId, post.startDay],function(err,result){
                 if(err){
                     console.log(err);
@@ -80,7 +80,7 @@ module.exports = {
             select distinct a.class_id id, d.name classType_name,  d.classType_id classType_id, a.startDay startDay, a.totalReservation total, a.startTime startTime, Date_add(a.startTime, Interval a.period minute) period, a.reserveNumber
             from class a 
             join coach_class b on a.class_id = b.class_id 
-            join classtype d on a.classType_id = d.classType_id where a.GYM_id = ? and week(a.startDay) = week(?)
+            join classType d on a.classType_id = d.classType_id where a.GYM_id = ? and week(a.startDay) = week(?)
             `,[gymId, post.startDay],function(err,result){
                 if(err){
                     console.log(err);
@@ -155,8 +155,8 @@ module.exports = {
                     if(info[0] != undefined){ //이미 예약된 회원일 때 거부
                         rejects(err);
                     }else{
-                        db.query(`insert into waitingmember(GYM_id, class_id, member_id, member_membership_id ,waitingNumber) values(?,?,?,?,(SELECT IFNULL(MAX(waitingNumber) + 1,1) 
-                                as maxNumber from waitingmember a where class_id = ?) )`
+                        db.query(`insert into waitingMember(GYM_id, class_id, member_id, member_membership_id ,waitingNumber) values(?,?,?,?,(SELECT IFNULL(MAX(waitingNumber) + 1,1) 
+                                as maxNumber from waitingMember a where class_id = ?) )`
                         ,[gymId,post.schedule_id,post.member_id,membershipId,post.schedule_id],function(err,result){
                             if(err){
                                 console.log(err);

@@ -37,7 +37,7 @@ module.exports = {
                     join member_membership e on a.member_id = e.member_id
                     join membership f on e.membership_id = f.membership_id
                     join classType g on e.classType_id = g.classType_id
-                    where a.GYM_id = 9 and a.approve = 0 and e.endDay >= now() and e.maxCountClass != e.countClass 
+                    where a.GYM_id = ? and a.approve = 0 and e.endDay >= now() and e.maxCountClass != e.countClass 
                     group by member_id `, [gymId], function(err,userInfo){
                     if(err){
                         rejects(err);
@@ -120,7 +120,7 @@ module.exports = {
                 a.phone phone, d.recentAttendDay recentAttendDay from member a 
                 join member_membership b on a.member_id = b.member_id 
                 left join member_locker c on a.member_id = c.member_id
-                join (select member_id, max(startDay) recentAttendDay from member_class c join class d 
+                left join (select member_id, max(startDay) recentAttendDay from member_class c join class d 
                 on c.class_id = d.class_id where c.attend != 0 and c.attend != 3 group by member_id) d
                 on a.member_id = d.member_id
                 where (b.accountReceivable != 0 or c.accountReceivable !=0) and a.GYM_id = ?`,[gymId],function(err,result){
@@ -136,7 +136,7 @@ module.exports = {
         return new Promise(function(resolve,rejects){
             db.query(`select sum(ifnull(c.accountReceivable,0)+ifnull(b.accountReceivable,0)) sumAccountReceivable from member a
                 join member_membership b on a.member_id = b.member_id 
-                left join member_locker c on a.member_id = c.member_id where a.GYM_id = 9`, [gymId],function(err,result){
+                left join member_locker c on a.member_id = c.member_id where a.GYM_id = ?`, [gymId],function(err,result){
                     if(err){
                         rejects(err);
                     }else{
@@ -208,13 +208,13 @@ module.exports = {
     activeMember:function(post, gymId){
         return new Promise(function(resolve,rejects){
             db.query(`select a.member_id member_id, a.male male, a.birth birth, a.description description, a.name member_name, 
-            max(b.startDay) recentAttendDay, a.phone phone, e.startDay, e.endDay, f.name membership_name, g.name classType_name, e.countClass countClass
+            a.phone phone, e.startDay, e.endDay, f.name membership_name, g.name classType_name, e.countClass countClass
             from member a left join (select member_id, startDay from member_class c join class d 
             on c.class_id = d.class_id where c.attend != 0 and c.attend != 3) b 
             on a.member_id = b.member_id
-            join member_membership e on a.member_id = e.member_id
-            join membership f on e.membership_id = f.membership_id
-            join classType g on e.classType_id = g.classType_id
+            left join member_membership e on a.member_id = e.member_id
+            left join membership f on e.membership_id = f.membership_id
+            left join classType g on e.classType_id = g.classType_id
             where a.GYM_id = ? and a.approve = 0 and e.endDay >= date_format(?,'%y-%m-%d') and e.maxCountClass != e.countClass`,[gymId,post.date],function(err,result){
                 if(err){
                     rejects(err);

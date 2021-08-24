@@ -59,7 +59,7 @@ module.exports = {
     },
     minWaitingMember:function(post){
         return new Promise(function(resolve,rejects){
-            db.query('select * from waitingMember where class_id = ? and  waitingNumber = (select temp from (select min(waitingNumber) as temp from waitingmember a where class_id = ?) as t) ',
+            db.query('select * from waitingMember where class_id = ? and  waitingNumber = (select temp from (select min(waitingNumber) as temp from waitingMember a where class_id = ?) as t) ',
             [post.schedule_id,post.schedule_id],function(err,result){
                 if(err){
                     rejects(err);

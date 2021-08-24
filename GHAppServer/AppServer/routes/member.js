@@ -38,6 +38,6 @@ router.post('/info/update_process',userController.memberUpdateProcess)
 router.get('/membership',userController.templateBuyMembership);
 router.post('/membership/buy',userController.buyMembership);
 router.get('/accountReceivableList',userController.accountReceivableList);
-router.get('/expireExpectList',userController.expireExpectList);
+router.post('/expireExpectList',userController.expireExpectList);
 router.post('/todayReserveList',userController.todayReserveList);
 module.exports = router;

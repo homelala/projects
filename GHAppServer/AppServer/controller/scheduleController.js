@@ -227,6 +227,7 @@ module.exports = {
                                     ,parseInt(checkDaySchdedule[0].startTime.slice(0,2))+9
                                     ,parseInt(checkDaySchdedule[0].startTime.slice(3,5))-checkDaySchdedule[0].checkAttendTime
                                     ,parseInt(checkDaySchdedule[0].startTime.slice(6,8)));
+            console.log(checkDaySchdedule[0].startDay);
             var checkUpdateStatus = (attendTime < today)
             if(checkUpdateStatus){
                 await memberClass.updateStatus(req.body,req.session.gym.GYM_id);

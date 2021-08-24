@@ -9,7 +9,7 @@ module.exports = {
         <!doctype html>
         <html>
             <head>
-                <title>HOME</title>
+                <title>HomePage</title>
                 ${gymInfo.location} ${userInfo.name}<br>
                 <a href="/login">지점 로그인</a>
                 <a href="/user/login">회원 로그인</a>

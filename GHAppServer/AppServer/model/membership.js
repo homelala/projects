@@ -132,7 +132,7 @@ module.exports = {
                 a.payment payment, a.card card, a.cash cash, a.accountReceivable accountReceivable, a.paymentDay from member_membership a
                 join member b on a.member_id = b.member_id
                 join membership c on a.membership_id = c.membership_id
-                where a.GYM_id = ? and month(a.paymentDay) =  month(?) and month(b.registerDate) != month(?)`,[gymId, post.date, post.date],
+                where a.GYM_id = ? and month(a.paymentDay) =  month(?) and month(b.registerDate) = month(?)`,[gymId, post.date, post.date],
                 function(err,result){
                     if(err){
                         rejects(err);

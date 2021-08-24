@@ -348,7 +348,7 @@ module.exports = {
         var userInfo = auth.memberLogin(req);
         var memberList = `<select name="member_id">`;
         for(var i =0;i<memberInfo.length;i++){
-            memberList+=`<option value="${memberInfo[i].member_id}">${memberInfo[i].name}</option>`
+            memberList+=`<option value="${memberInfo[i].member_id}">${memberInfo[i].member_name}</option>`
         }
         memberList += `</select>`
         return `
