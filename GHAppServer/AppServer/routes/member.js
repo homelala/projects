@@ -3,6 +3,7 @@ const db = require('../lib/mysql');
 const templateRegister = require('../lib/templates/Register');
 const templateLogin = require('../lib/templates/Login');
 const userController = require('../controller/userController');
+const upload = require('../config/upload');
 var router = express.Router();
 
 // 임시 회원 가입페이지 
@@ -17,7 +18,7 @@ router.get('/login',function(req,res){
 })
 
 //유저 회원 등록
-router.post('/register_process', userController.createMember);
+router.post('/register_process', upload.single('image'), userController.createMember);
 //Log in 
 router.post('/LogIn_process',userController.loginMember);
 //유효 회원 보기

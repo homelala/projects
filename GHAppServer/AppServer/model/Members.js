@@ -1,12 +1,13 @@
 const db = require('../lib/mysql');
-const { registerSchedule } = require('../lib/templates/Register');
+
 const gym = require('./gym');
 
 module.exports = {
-    insertMember:function(post,session){
+    insertMember:function(req,post,session){
+        var imageInfo = req.file.location = undefined ? "sample" :req.file.location;
         return new Promise(function(resolve,rejects){
             db.query('insert into member (GYM_id, name, image, email, passwd, birth, male, phone) values(?,?,?,?,?,?,?,?)',
-            [session.GYM_id,post.name,"sample",post.email,post.passwd,post.birth,post.male,post.phone],function(err,result){
+            [session.GYM_id,post.name,imageInfo,post.email,post.passwd,post.birth,post.male,post.phone],function(err,result){
                 if(err){
                     console.log(err);
                     rejects(err);

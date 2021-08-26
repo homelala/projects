@@ -1,11 +1,11 @@
-const { fsync } = require('fs');
 const db = require('../lib/mysql');
 
 module.exports = {
-    insertGYM:function(post){
+    insertGYM:function(req,post){
+        var imageInfo = req.file.location = undefined ? "sample" :req.file.location;
         return new Promise(function(resolve,rejects){
             db.query('insert into gym (name, location, logoImage, category, adminName, email, phone, passwd,subscribtionPath) values(?,?,?,?,?,?,?,?,?)',
-            [post.name,post.location,"test",post.category,post.adminName,post.email,post.phone,post.passwd,post.subscribtionPath],function(err,result){
+            [post.name, post.location,imageInfo,post.category,post.adminName,post.email,post.phone,post.passwd,post.subscribtionPath],function(err,result){
                 if(err){
                     console.log(err);
                     rejects(err);

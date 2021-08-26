@@ -11,7 +11,7 @@ module.exports = {
             </head>
             <h1>회원 등록</h1>
             <body>
-                <form action="/user/register_process" method="post">
+                <form action="/user/register_process" method="post" type="multipart/form-data">
                     Profile Image <br><input type="file" name="image" accept=".jpg, .jpeg, .png"/><br>
                     <input type="text" name="name" placeholder="이름"/><br>
                     <input type="text" name="email" placeholder="email"/><br>
@@ -36,7 +36,7 @@ module.exports = {
             </head>
             <h1>지점 등록</h1>
             <body>
-                <form action="/register_process" method="post">
+                <form action="/register_process" method="post", enctype="multipart/form-data">
                     Profile Logo <br><input type="file" name="image" accept=".jpg, .jpeg, .png"/><br>
                     <input type="text" name="name" placeholder="업장명"/><br>
                     <input type="text" name="location" placeholder="업장 주소"/><br>

@@ -11,6 +11,7 @@ var noticeRoute = require('./routes/notice');
 var lockerRoute = require('./routes/locker')
 const expressSession = require('express-session');
 const { swaggerUi, specs } = require('./lib/swagger');
+
 app.use(expressSession({
     secret:'my key',
     resave: false,

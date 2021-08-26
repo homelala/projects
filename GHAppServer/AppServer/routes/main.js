@@ -4,6 +4,7 @@ const templateRegister = require('../lib/templates/Register');
 const templateLogin = require('../lib/templates/Login');
 const GymController = require('../controller/gymController');
 const gymController = require('../controller/gymController');
+const upload = require('../config/upload');
 var router = express.Router();
 
 router.get('/',function(req,res){
@@ -25,7 +26,7 @@ router.get('/setting',function(req,res){
     res.send(temp);
 })
 router.post('/statistics',GymController.showStatistics)
-router.post('/register_process', GymController.createGYM);
+router.post('/register_process', upload.single('image'), GymController.createGYM);
 router.post('/login_process', GymController.LoginGYM);
 router.post('/setting_process',gymController.updateGymSetting);
 

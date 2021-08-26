@@ -20,7 +20,7 @@ app.use(expressSession({
 
 module.exports = {
     createMember:function(req,res,next){
-        members.insertMember(req.body,req.session.gym).then(function(result){
+        members.insertMember(req,req.body,req.session.gym).then(function(result){
             res.send('welcome')
         }).catch(function(){
             res.send('sorry')
